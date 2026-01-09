@@ -1,0 +1,20 @@
+# CodeIgniter 3
+# application/config/config.php
+# application/config/database.php
+application/logs/log-*.php
+!application/logs/index.html
+/vendor/
+/node_modules/
+
+# User Content
+/uploads/
+/assets/img/profile/
+!/assets/img/profile/default.jpg
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

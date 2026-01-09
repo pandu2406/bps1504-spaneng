@@ -1,0 +1,698 @@
+[
+    {
+        "id": "172",
+        "kegiatan_id": 37,
+        "id_pengawas": "60",
+        "id_mitra": "143"
+    },
+    {
+        "id": "173",
+        "kegiatan_id": 37,
+        "id_pengawas": "60",
+        "id_mitra": "159"
+    },
+    {
+        "id": "174",
+        "kegiatan_id": 37,
+        "id_pengawas": "60",
+        "id_mitra": "213"
+    },
+    {
+        "id": "175",
+        "kegiatan_id": 37,
+        "id_pengawas": "60",
+        "id_mitra": "67"
+    },
+    {
+        "id": "176",
+        "kegiatan_id": 37,
+        "id_pengawas": "60",
+        "id_mitra": "20"
+    },
+    {
+        "id": "177",
+        "kegiatan_id": 37,
+        "id_pengawas": "60",
+        "id_mitra": "148"
+    },
+    {
+        "id": "178",
+        "kegiatan_id": 37,
+        "id_pengawas": "340054651",
+        "id_mitra": "157"
+    },
+    {
+        "id": "179",
+        "kegiatan_id": 37,
+        "id_pengawas": "340054651",
+        "id_mitra": "154"
+    },
+    {
+        "id": "180",
+        "kegiatan_id": 37,
+        "id_pengawas": "340054651",
+        "id_mitra": "153"
+    },
+    {
+        "id": "181",
+        "kegiatan_id": 37,
+        "id_pengawas": "340054651",
+        "id_mitra": "151"
+    },
+    {
+        "id": "182",
+        "kegiatan_id": 37,
+        "id_pengawas": "340060064",
+        "id_mitra": "235"
+    },
+    {
+        "id": "183",
+        "kegiatan_id": 37,
+        "id_pengawas": "340054651",
+        "id_mitra": "21"
+    },
+    {
+        "id": "184",
+        "kegiatan_id": 37,
+        "id_pengawas": "340054651",
+        "id_mitra": "152"
+    },
+    {
+        "id": "185",
+        "kegiatan_id": 37,
+        "id_pengawas": "340060064",
+        "id_mitra": "138"
+    },
+    {
+        "id": "186",
+        "kegiatan_id": 37,
+        "id_pengawas": "340060064",
+        "id_mitra": "144"
+    },
+    {
+        "id": "187",
+        "kegiatan_id": 37,
+        "id_pengawas": "340060064",
+        "id_mitra": "140"
+    },
+    {
+        "id": "188",
+        "kegiatan_id": 37,
+        "id_pengawas": "340060064",
+        "id_mitra": "32"
+    },
+    {
+        "id": "189",
+        "kegiatan_id": 37,
+        "id_pengawas": "340060064",
+        "id_mitra": "150"
+    },
+    {
+        "id": "190",
+        "kegiatan_id": 37,
+        "id_pengawas": "340017146",
+        "id_mitra": "118"
+    },
+    {
+        "id": "191",
+        "kegiatan_id": 37,
+        "id_pengawas": "340017146",
+        "id_mitra": "202"
+    },
+    {
+        "id": "192",
+        "kegiatan_id": 37,
+        "id_pengawas": "340017146",
+        "id_mitra": "129"
+    },
+    {
+        "id": "193",
+        "kegiatan_id": 37,
+        "id_pengawas": "340017146",
+        "id_mitra": "198"
+    },
+    {
+        "id": "194",
+        "kegiatan_id": 37,
+        "id_pengawas": "64",
+        "id_mitra": "128"
+    },
+    {
+        "id": "195",
+        "kegiatan_id": 37,
+        "id_pengawas": "64",
+        "id_mitra": "204"
+    },
+    {
+        "id": "196",
+        "kegiatan_id": 37,
+        "id_pengawas": "64",
+        "id_mitra": "59"
+    },
+    {
+        "id": "197",
+        "kegiatan_id": 37,
+        "id_pengawas": "64",
+        "id_mitra": "141"
+    },
+    {
+        "id": "198",
+        "kegiatan_id": 37,
+        "id_pengawas": "64",
+        "id_mitra": "175"
+    },
+    {
+        "id": "199",
+        "kegiatan_id": 37,
+        "id_pengawas": "35",
+        "id_mitra": "37"
+    },
+    {
+        "id": "200",
+        "kegiatan_id": 37,
+        "id_pengawas": "35",
+        "id_mitra": "84"
+    },
+    {
+        "id": "201",
+        "kegiatan_id": 37,
+        "id_pengawas": "35",
+        "id_mitra": "127"
+    },
+    {
+        "id": "202",
+        "kegiatan_id": 37,
+        "id_pengawas": "35",
+        "id_mitra": "22"
+    },
+    {
+        "id": "203",
+        "kegiatan_id": 37,
+        "id_pengawas": "35",
+        "id_mitra": "38"
+    },
+    {
+        "id": "204",
+        "kegiatan_id": 37,
+        "id_pengawas": "340017522",
+        "id_mitra": "113"
+    },
+    {
+        "id": "205",
+        "kegiatan_id": 37,
+        "id_pengawas": "340017522",
+        "id_mitra": "52"
+    },
+    {
+        "id": "206",
+        "kegiatan_id": 37,
+        "id_pengawas": "340017522",
+        "id_mitra": "110"
+    },
+    {
+        "id": "207",
+        "kegiatan_id": 37,
+        "id_pengawas": "340017522",
+        "id_mitra": "115"
+    },
+    {
+        "id": "208",
+        "kegiatan_id": 37,
+        "id_pengawas": "340059527",
+        "id_mitra": "40"
+    },
+    {
+        "id": "209",
+        "kegiatan_id": 37,
+        "id_pengawas": "340018881",
+        "id_mitra": "114"
+    },
+    {
+        "id": "210",
+        "kegiatan_id": 37,
+        "id_pengawas": "340018881",
+        "id_mitra": "174"
+    },
+    {
+        "id": "211",
+        "kegiatan_id": 37,
+        "id_pengawas": "340018881",
+        "id_mitra": "136"
+    },
+    {
+        "id": "212",
+        "kegiatan_id": 37,
+        "id_pengawas": "340018881",
+        "id_mitra": "41"
+    },
+    {
+        "id": "213",
+        "kegiatan_id": 37,
+        "id_pengawas": "340018881",
+        "id_mitra": "208"
+    },
+    {
+        "id": "214",
+        "kegiatan_id": 37,
+        "id_pengawas": "340059527",
+        "id_mitra": "134"
+    },
+    {
+        "id": "215",
+        "kegiatan_id": 37,
+        "id_pengawas": "340059527",
+        "id_mitra": "239"
+    },
+    {
+        "id": "216",
+        "kegiatan_id": 37,
+        "id_pengawas": "340059527",
+        "id_mitra": "43"
+    },
+    {
+        "id": "217",
+        "kegiatan_id": 37,
+        "id_pengawas": "340059527",
+        "id_mitra": "112"
+    },
+    {
+        "id": "218",
+        "kegiatan_id": 37,
+        "id_pengawas": "340017522",
+        "id_mitra": "209"
+    },
+    {
+        "id": "219",
+        "kegiatan_id": 37,
+        "id_pengawas": "340016150",
+        "id_mitra": "206"
+    },
+    {
+        "id": "220",
+        "kegiatan_id": 37,
+        "id_pengawas": "340019347",
+        "id_mitra": "132"
+    },
+    {
+        "id": "221",
+        "kegiatan_id": 37,
+        "id_pengawas": "340019347",
+        "id_mitra": "80"
+    },
+    {
+        "id": "222",
+        "kegiatan_id": 37,
+        "id_pengawas": "340019347",
+        "id_mitra": "171"
+    },
+    {
+        "id": "223",
+        "kegiatan_id": 37,
+        "id_pengawas": "340016150",
+        "id_mitra": "137"
+    },
+    {
+        "id": "224",
+        "kegiatan_id": 37,
+        "id_pengawas": "340016150",
+        "id_mitra": "133"
+    },
+    {
+        "id": "225",
+        "kegiatan_id": 37,
+        "id_pengawas": "340019347",
+        "id_mitra": "130"
+    },
+    {
+        "id": "226",
+        "kegiatan_id": 37,
+        "id_pengawas": "340019347",
+        "id_mitra": "166"
+    },
+    {
+        "id": "227",
+        "kegiatan_id": 37,
+        "id_pengawas": "340016150",
+        "id_mitra": "17"
+    },
+    {
+        "id": "228",
+        "kegiatan_id": 37,
+        "id_pengawas": "340016150",
+        "id_mitra": "224"
+    },
+    {
+        "id": "229",
+        "kegiatan_id": 37,
+        "id_pengawas": "340016150",
+        "id_mitra": "173"
+    },
+    {
+        "id": "230",
+        "kegiatan_id": 37,
+        "id_pengawas": "340057667",
+        "id_mitra": "11"
+    },
+    {
+        "id": "231",
+        "kegiatan_id": 37,
+        "id_pengawas": "340057667",
+        "id_mitra": "54"
+    },
+    {
+        "id": "232",
+        "kegiatan_id": 37,
+        "id_pengawas": "340060595",
+        "id_mitra": "61"
+    },
+    {
+        "id": "233",
+        "kegiatan_id": 37,
+        "id_pengawas": "340057667",
+        "id_mitra": "48"
+    },
+    {
+        "id": "234",
+        "kegiatan_id": 37,
+        "id_pengawas": "340057667",
+        "id_mitra": "10"
+    },
+    {
+        "id": "235",
+        "kegiatan_id": 37,
+        "id_pengawas": "340060595",
+        "id_mitra": "203"
+    },
+    {
+        "id": "236",
+        "kegiatan_id": 37,
+        "id_pengawas": "340056947",
+        "id_mitra": "219"
+    },
+    {
+        "id": "237",
+        "kegiatan_id": 37,
+        "id_pengawas": "340056947",
+        "id_mitra": "97"
+    },
+    {
+        "id": "238",
+        "kegiatan_id": 37,
+        "id_pengawas": "340056947",
+        "id_mitra": "42"
+    },
+    {
+        "id": "239",
+        "kegiatan_id": 37,
+        "id_pengawas": "340056947",
+        "id_mitra": "95"
+    },
+    {
+        "id": "240",
+        "kegiatan_id": 37,
+        "id_pengawas": "340060595",
+        "id_mitra": "101"
+    },
+    {
+        "id": "241",
+        "kegiatan_id": 37,
+        "id_pengawas": "340061959",
+        "id_mitra": "185"
+    },
+    {
+        "id": "242",
+        "kegiatan_id": 37,
+        "id_pengawas": "340061959",
+        "id_mitra": "75"
+    },
+    {
+        "id": "243",
+        "kegiatan_id": 37,
+        "id_pengawas": "340061959",
+        "id_mitra": "47"
+    },
+    {
+        "id": "244",
+        "kegiatan_id": 37,
+        "id_pengawas": "340057667",
+        "id_mitra": "107"
+    },
+    {
+        "id": "245",
+        "kegiatan_id": 37,
+        "id_pengawas": "340061959",
+        "id_mitra": "65"
+    },
+    {
+        "id": "246",
+        "kegiatan_id": 37,
+        "id_pengawas": "340061959",
+        "id_mitra": "226"
+    },
+    {
+        "id": "247",
+        "kegiatan_id": 37,
+        "id_pengawas": "340060595",
+        "id_mitra": "99"
+    },
+    {
+        "id": "248",
+        "kegiatan_id": 37,
+        "id_pengawas": "340060595",
+        "id_mitra": "19"
+    },
+    {
+        "id": "249",
+        "kegiatan_id": 37,
+        "id_pengawas": "340056947",
+        "id_mitra": "55"
+    },
+    {
+        "id": "250",
+        "kegiatan_id": 37,
+        "id_pengawas": "340060595",
+        "id_mitra": "9"
+    },
+    {
+        "id": "251",
+        "kegiatan_id": 37,
+        "id_pengawas": "78",
+        "id_mitra": "169"
+    },
+    {
+        "id": "252",
+        "kegiatan_id": 37,
+        "id_pengawas": "78",
+        "id_mitra": "168"
+    },
+    {
+        "id": "253",
+        "kegiatan_id": 37,
+        "id_pengawas": "78",
+        "id_mitra": "77"
+    },
+    {
+        "id": "254",
+        "kegiatan_id": 37,
+        "id_pengawas": "78",
+        "id_mitra": "212"
+    },
+    {
+        "id": "255",
+        "kegiatan_id": 37,
+        "id_pengawas": "78",
+        "id_mitra": "167"
+    },
+    {
+        "id": "256",
+        "kegiatan_id": 37,
+        "id_pengawas": "340060586",
+        "id_mitra": "163"
+    },
+    {
+        "id": "257",
+        "kegiatan_id": 37,
+        "id_pengawas": "340060586",
+        "id_mitra": "90"
+    },
+    {
+        "id": "258",
+        "kegiatan_id": 37,
+        "id_pengawas": "30",
+        "id_mitra": "164"
+    },
+    {
+        "id": "259",
+        "kegiatan_id": 37,
+        "id_pengawas": "30",
+        "id_mitra": "232"
+    },
+    {
+        "id": "260",
+        "kegiatan_id": 37,
+        "id_pengawas": "30",
+        "id_mitra": "170"
+    },
+    {
+        "id": "261",
+        "kegiatan_id": 37,
+        "id_pengawas": "30",
+        "id_mitra": "31"
+    },
+    {
+        "id": "262",
+        "kegiatan_id": 37,
+        "id_pengawas": "340060586",
+        "id_mitra": "89"
+    },
+    {
+        "id": "263",
+        "kegiatan_id": 37,
+        "id_pengawas": "340060586",
+        "id_mitra": "162"
+    },
+    {
+        "id": "264",
+        "kegiatan_id": 37,
+        "id_pengawas": "340060586",
+        "id_mitra": "161"
+    },
+    {
+        "id": "265",
+        "kegiatan_id": 37,
+        "id_pengawas": "30",
+        "id_mitra": "63"
+    },
+    {
+        "id": "266",
+        "kegiatan_id": 37,
+        "id_pengawas": "340061763",
+        "id_mitra": "109"
+    },
+    {
+        "id": "267",
+        "kegiatan_id": 37,
+        "id_pengawas": "340061763",
+        "id_mitra": "190"
+    },
+    {
+        "id": "268",
+        "kegiatan_id": 37,
+        "id_pengawas": "340019368",
+        "id_mitra": "193"
+    },
+    {
+        "id": "269",
+        "kegiatan_id": 37,
+        "id_pengawas": "340019368",
+        "id_mitra": "33"
+    },
+    {
+        "id": "270",
+        "kegiatan_id": 37,
+        "id_pengawas": "340061763",
+        "id_mitra": "234"
+    },
+    {
+        "id": "271",
+        "kegiatan_id": 37,
+        "id_pengawas": "340019368",
+        "id_mitra": "201"
+    },
+    {
+        "id": "272",
+        "kegiatan_id": 37,
+        "id_pengawas": "340019368",
+        "id_mitra": "106"
+    },
+    {
+        "id": "273",
+        "kegiatan_id": 37,
+        "id_pengawas": "340019368",
+        "id_mitra": "46"
+    },
+    {
+        "id": "274",
+        "kegiatan_id": 37,
+        "id_pengawas": "340061763",
+        "id_mitra": "194"
+    },
+    {
+        "id": "275",
+        "kegiatan_id": 37,
+        "id_pengawas": "340059726",
+        "id_mitra": "81"
+    },
+    {
+        "id": "276",
+        "kegiatan_id": 37,
+        "id_pengawas": "340019333",
+        "id_mitra": "85"
+    },
+    {
+        "id": "277",
+        "kegiatan_id": 37,
+        "id_pengawas": "340019333",
+        "id_mitra": "91"
+    },
+    {
+        "id": "278",
+        "kegiatan_id": 37,
+        "id_pengawas": "340059726",
+        "id_mitra": "188"
+    },
+    {
+        "id": "279",
+        "kegiatan_id": 37,
+        "id_pengawas": "340059726",
+        "id_mitra": "72"
+    },
+    {
+        "id": "280",
+        "kegiatan_id": 37,
+        "id_pengawas": "340059726",
+        "id_mitra": "27"
+    },
+    {
+        "id": "281",
+        "kegiatan_id": 37,
+        "id_pengawas": "58",
+        "id_mitra": "7"
+    },
+    {
+        "id": "282",
+        "kegiatan_id": 37,
+        "id_pengawas": "58",
+        "id_mitra": "117"
+    },
+    {
+        "id": "283",
+        "kegiatan_id": 37,
+        "id_pengawas": "58",
+        "id_mitra": "122"
+    },
+    {
+        "id": "284",
+        "kegiatan_id": 37,
+        "id_pengawas": "58",
+        "id_mitra": "12"
+    },
+    {
+        "id": "285",
+        "kegiatan_id": 37,
+        "id_pengawas": "340019333",
+        "id_mitra": "195"
+    },
+    {
+        "id": "286",
+        "kegiatan_id": 37,
+        "id_pengawas": "340019333",
+        "id_mitra": "88"
+    },
+    {
+        "id": "287",
+        "kegiatan_id": 37,
+        "id_pengawas": "58",
+        "id_mitra": "87"
+    }
+]

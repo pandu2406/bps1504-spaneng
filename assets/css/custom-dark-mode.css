@@ -1,0 +1,254 @@
+/* Custom Dark Mode Styles */
+[data-theme="dark"] {
+    --bg-color: #1a202c;
+    --card-bg: #2d3748;
+    --text-primary: #f7fafc;
+    --text-secondary: #a0aec0;
+    --border-color: #4a5568;
+    --navbar-bg: #2d3748;
+    --sidebar-bg: #1a202c;
+    --table-hover: #2d3748;
+}
+
+[data-theme="dark"] body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+}
+
+/* Smooth Transitions */
+body,
+#content-wrapper,
+.navbar,
+.card,
+.card-header,
+.sidebar,
+.sidebar-brand-text,
+.nav-link,
+.nav-link span,
+.nav-link i,
+.collapse-inner,
+.collapse-item,
+.modal-content,
+.form-control,
+.table,
+.table thead th,
+.table td,
+.table th,
+.footer,
+.sticky-footer {
+    transition: background-color 0.3s ease,
+        background 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease !important;
+}
+
+[data-theme="dark"] #content-wrapper {
+    background-color: var(--bg-color) !important;
+}
+
+[data-theme="dark"] .navbar {
+    background-color: var(--navbar-bg) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+[data-theme="dark"] .card {
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .card-header {
+    background-color: rgba(0, 0, 0, 0.1) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+[data-theme="dark"] .table {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .table thead th {
+    background-color: #2d3748 !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .table td,
+[data-theme="dark"] .table th {
+    border-top: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .table-hover tbody tr:hover {
+    background-color: var(--table-hover) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .sidebar {
+    background: var(--sidebar-bg) !important;
+    background-image: none !important;
+    border-right: 1px solid var(--border-color) !important;
+}
+
+[data-theme="dark"] .sidebar-brand-text {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .sidebar .nav-item .nav-link span {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .sidebar .nav-item .nav-link i {
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .sidebar .nav-item.active-menu>.nav-link {
+    background-color: var(--card-bg) !important;
+    border-left: 4px solid #4e73df !important;
+}
+
+[data-theme="dark"] .sidebar-divider {
+    border-top: 1px solid var(--border-color) !important;
+}
+
+[data-theme="dark"] .collapse-inner {
+    background-color: #1a202c !important;
+}
+
+[data-theme="dark"] .collapse-item {
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .collapse-item:hover {
+    background-color: var(--card-bg) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .collapse-item.active {
+    background-color: var(--card-bg) !important;
+    color: var(--text-primary) !important;
+    border-left: 4px solid #4e73df !important;
+}
+
+[data-theme="dark"] .text-gray-800,
+[data-theme="dark"] .text-dark {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .text-gray-600,
+[data-theme="dark"] .text-muted {
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .modal-content {
+    background-color: var(--card-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .modal-header,
+[data-theme="dark"] .modal-footer {
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .form-control {
+    background-color: #1a202c;
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .form-control:focus {
+    background-color: #1a202c;
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .breadcrumb {
+    background-color: var(--card-bg);
+}
+
+/* Override Bootstrap Utility Classes */
+[data-theme="dark"] .bg-light {
+    background-color: var(--bg-color) !important;
+}
+
+[data-theme="dark"] .bg-white {
+    background-color: var(--card-bg) !important;
+}
+
+[data-theme="dark"] .table-bordered {
+    border: 1px solid var(--border-color) !important;
+}
+
+[data-theme="dark"] .table-bordered th,
+[data-theme="dark"] .table-bordered td {
+    border: 1px solid var(--border-color) !important;
+}
+
+/* Fix for topbar text and layout */
+[data-theme="dark"] .navbar-light .navbar-nav .nav-link {
+    color: var(--text-primary) !important;
+}
+
+/* Force Navbar and Topbar Dark */
+[data-theme="dark"] .topbar {
+    background-color: var(--navbar-bg) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+/* User Profile Dropdown and Menus */
+[data-theme="dark"] .dropdown-menu {
+    background-color: var(--card-bg) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+[data-theme="dark"] .dropdown-item {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .dropdown-item:hover {
+    background-color: var(--table-hover) !important;
+}
+
+[data-theme="dark"] .dropdown-divider {
+    border-top: 1px solid var(--border-color) !important;
+}
+
+/* Force Table Bodies to be Dark (overriding hardcoded inline styles) */
+[data-theme="dark"] .table tbody {
+    background-color: transparent !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .table tr {
+    background-color: transparent !important;
+    color: var(--text-primary) !important;
+}
+
+/* Topbar text color fix */
+[data-theme="dark"] .topbar .text-primary,
+[data-theme="dark"] .topbar .text-indigo-600,
+[data-theme="dark"] .topbar h3.text-primary,
+[data-theme="dark"] .topbar span.text-primary {
+    color: var(--text-primary) !important;
+}
+
+/* Footer Dark Mode */
+[data-theme="dark"] .sticky-footer {
+    background-color: var(--navbar-bg) !important;
+    border-top: 1px solid var(--border-color) !important;
+}
+
+[data-theme="dark"] .sticky-footer .copyright span {
+    color: var(--text-secondary) !important;
+}
+
+/* Profile and Text Fixes */
+[data-theme="dark"] .card-text .text-muted,
+[data-theme="dark"] small.text-muted {
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .img-thumbnail {
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+}

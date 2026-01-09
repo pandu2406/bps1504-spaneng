@@ -1,0 +1,52 @@
+<?php
+/**
+ * Test Script untuk Delete Survei/Sensus
+ * 
+ * Cara menggunakan:
+ * 1. Buka browser ke halaman survei/sensus
+ * 2. Buka DevTools Console (F12)
+ * 3. Copy-paste script ini ke console
+ */
+?>
+
+<!-- Test Delete Button -->
+<script>
+    console.log('=== Testing Delete Button ===');
+
+    // Check if confirmDeleteSurvei function exists
+    if (typeof confirmDeleteSurvei === 'function') {
+        console.log('✓ confirmDeleteSurvei function found');
+    } else {
+        console.error('✗ confirmDeleteSurvei function NOT found');
+    }
+
+    // Check if confirmDeleteSensus function exists
+    if (typeof confirmDeleteSensus === 'function') {
+        console.log('✓ confirmDeleteSensus function found');
+    } else {
+        console.error('✗ confirmDeleteSensus function NOT found');
+    }
+
+    // Check if SweetAlert is loaded
+    if (typeof Swal !== 'undefined') {
+        console.log('✓ SweetAlert2 loaded');
+    } else {
+        console.error('✗ SweetAlert2 NOT loaded');
+    }
+
+    // Find all delete buttons
+    const deleteButtons = document.querySelectorAll('a[onclick*="confirmDelete"]');
+    console.log(`Found ${deleteButtons.length} delete buttons`);
+
+    if (deleteButtons.length > 0) {
+        console.log('Delete buttons:');
+        deleteButtons.forEach((btn, index) => {
+            console.log(`  ${index + 1}. onclick="${btn.getAttribute('onclick')}"`);
+        });
+    }
+
+    console.log('\n=== Test Manual ===');
+    console.log('Untuk test manual, klik tombol "Hapus" pada salah satu kegiatan.');
+    console.log('Yang BENAR: SweetAlert popup muncul dengan styling modern');
+    console.log('Yang SALAH: Browser confirm() default muncul');
+</script>
