@@ -11,6 +11,47 @@
                 </div>
             </div>
 
+            <div class="row align-items-center mb-3">
+                <div class="col-md-8">
+                    <form action="" method="get" class="form-inline">
+                        <label class="mr-2 font-weight-bold" style="color:#00264d;">Filter Periode:</label>
+
+                        <select name="bulan" class="form-control form-control-sm mr-2">
+                            <option value="">- Semua Bulan -</option>
+                            <?php
+                            $bulan_list = [
+                                1 => 'Januari',
+                                2 => 'Februari',
+                                3 => 'Maret',
+                                4 => 'April',
+                                5 => 'Mei',
+                                6 => 'Juni',
+                                7 => 'Juli',
+                                8 => 'Agustus',
+                                9 => 'September',
+                                10 => 'Oktober',
+                                11 => 'November',
+                                12 => 'Desember'
+                            ];
+                            foreach ($bulan_list as $k => $v):
+                                ?>
+                                <option value="<?= $k ?>" <?= ($selected_bulan == $k) ? 'selected' : '' ?>><?= $v ?></option>
+                            <?php endforeach; ?>
+                        </select>
+
+                        <select name="tahun" class="form-control form-control-sm mr-2">
+                            <option value="">- Semua Tahun -</option>
+                            <?php for ($t = date('Y') - 1; $t <= date('Y') + 1; $t++): ?>
+                                <option value="<?= $t ?>" <?= ($selected_tahun == $t) ? 'selected' : '' ?>><?= $t ?></option>
+                            <?php endfor; ?>
+                        </select>
+
+                        <button type="submit" class="btn btn-sm btn-primary">Filter</button>
+                        <a href="<?= base_url('penilaian') ?>" class="btn btn-sm btn-secondary ml-1">Reset</a>
+                    </form>
+                </div>
+            </div>
+
             <div class="table-responsive">
                 <table class="table table-borderless table-hover" id="mydata">
                     <thead style="background-color: #00264d; color:#e6e6e6;">

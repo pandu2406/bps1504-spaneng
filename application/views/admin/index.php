@@ -176,7 +176,7 @@
                                                     <li style="font-size: 0.85rem; margin-bottom: 0.5rem;">
                                                         <a href="<?= base_url('ranking/cek_progress/' . $k['id']) ?>"
                                                             class="text-info" style="text-decoration: none;">
-                                                            <?= $k['nama'] ?>
+                                                            <?= html_escape($k['nama']) ?>
                                                         </a>
                                                     </li>
                                                 <?php endforeach; ?>
@@ -229,7 +229,7 @@
                                                     <li style="font-size: 0.85rem; margin-bottom: 0.5rem;">
                                                         <a href="<?= base_url('rekap/details_mitra/' . $m['id_mitra']) ?>"
                                                             class="text-danger" style="text-decoration: none;">
-                                                            <?= $m['nama'] ?>
+                                                            <?= html_escape($m['nama']) ?>
                                                         </a>
                                                     </li>
                                                 <?php endforeach; ?>
@@ -604,9 +604,9 @@
             // Updated script with safety checks for empty values
             const allEvents = [
                 <?php foreach ($details as $d): ?>
-                                                          <?php if (is_numeric($d['start']) && is_numeric($d['finish'])): ?>
-                                                                                                  {
-                            title: '<?= addslashes($d['nama']) ?>',
+                                                              <?php if (is_numeric($d['start']) && is_numeric($d['finish'])): ?>
+                                                                                                          {
+                            title: <?= json_encode($d['nama']) ?>,
                             start: '<?= date('Y-m-d', $d['start']) ?>',
                             end: '<?= date('Y-m-d', $d['finish'] + 86400) ?>',
                             extendedProps: {

@@ -396,6 +396,102 @@ class Master extends CI_Controller
         $this->db->where('mitra.id_mitra', $id_mitra);
         $data['mitra'] = $this->db->get()->row_array();
 
+        // Ambil Filter
+        $bulan = $this->input->get('bulan');
+        $tahun = $this->input->get('tahun');
+
+        $data['filter_bulan'] = $bulan;
+        $data['filter_tahun'] = $tahun;
+
+        // Fetch Kriteria
+        $kriteria = $this->db->get('kriteria')->result_array();
+        $data['kriteria_list'] = $kriteria;
+
+        // Base Query Logic
+        $where_pencacah = "WHERE akp.id_mitra = ?";
+        $where_pengawas = "WHERE akp.id_pengawas = ?";
+        $params_pencacah = [$id_mitra];
+        $params_pengawas = [$id_mitra];
+
+        if ($bulan) {
+            $where_pencacah .= " AND MONTH(FROM_UNIXTIME(k.finish)) = ?";
+            $where_pengawas .= " AND MONTH(FROM_UNIXTIME(k.finish)) = ?";
+            $params_pencacah[] = $bulan;
+            $params_pengawas[] = $bulan;
+        }
+        if ($tahun) {
+            $where_pencacah .= " AND YEAR(FROM_UNIXTIME(k.finish)) = ?";
+            $where_pengawas .= " AND YEAR(FROM_UNIXTIME(k.finish)) = ?";
+            $params_pencacah[] = $tahun;
+            $params_pengawas[] = $tahun;
+        }
+
+        // Fetch Pencacah Activities
+        $sql_pencacah = "
+            SELECT akp.id as id_plot, k.nama as nama_kegiatan, k.start, k.finish, AVG(ap.nilai) as nilai_rata_rata
+            FROM all_kegiatan_pencacah akp
+            JOIN kegiatan k ON akp.kegiatan_id = k.id
+            LEFT JOIN all_penilaian ap ON akp.id = ap.all_kegiatan_pencacah_id
+            $where_pencacah
+            GROUP BY akp.id
+            ORDER BY k.finish DESC
+        ";
+        $kegiatan_pencacah = $this->db->query($sql_pencacah, $params_pencacah)->result_array();
+
+        // Attach detailed scores for Pencacah
+        foreach ($kegiatan_pencacah as &$kp) {
+            $kp['details'] = [];
+            $scores = $this->db->select('k.nama as kriteria, ap.nilai')
+                ->from('all_penilaian ap')
+                ->join('kriteria k', 'ap.kriteria_id = k.id')
+                ->where('ap.all_kegiatan_pencacah_id', $kp['id_plot']) // Use unique ID from all_kegiatan_pencacah
+                ->get()->result_array();
+            $kp['details'] = $scores;
+        }
+        $data['kegiatan_pencacah'] = $kegiatan_pencacah;
+
+
+        // Fetch Pengawas Activities
+        $sql_pengawas = "
+            SELECT akp.id as id_plot, k.nama as nama_kegiatan, k.start, k.finish, AVG(ap.nilai) as nilai_rata_rata
+            FROM all_kegiatan_pengawas akp
+            JOIN kegiatan k ON akp.kegiatan_id = k.id
+            LEFT JOIN all_penilaian_pengawas ap ON akp.id = ap.all_kegiatan_pengawas_id
+            $where_pengawas
+            GROUP BY akp.id
+            ORDER BY k.finish DESC
+        ";
+        $kegiatan_pengawas = $this->db->query($sql_pengawas, $params_pengawas)->result_array();
+
+        // Attach detailed scores for Pengawas
+        foreach ($kegiatan_pengawas as &$kp) {
+            $kp['details'] = [];
+            $scores = $this->db->select('k.nama as kriteria, ap.nilai')
+                ->from('all_penilaian_pengawas ap')
+                ->join('kriteria k', 'ap.kriteria_id = k.id')
+                ->where('ap.all_kegiatan_pengawas_id', $kp['id_plot'])
+                ->get()->result_array();
+            $kp['details'] = $scores;
+        }
+        $data['kegiatan_pengawas'] = $kegiatan_pengawas;
+
+        // Calculate Overall Average
+        $total_nilai = 0;
+        $count = 0;
+        foreach ($data['kegiatan_pencacah'] as $kp) {
+            if ($kp['nilai_rata_rata'] > 0) {
+                $total_nilai += $kp['nilai_rata_rata'];
+                $count++;
+            }
+        }
+        foreach ($data['kegiatan_pengawas'] as $kp) {
+            if ($kp['nilai_rata_rata'] > 0) {
+                $total_nilai += $kp['nilai_rata_rata'];
+                $count++;
+            }
+        }
+        $data['average_all'] = $count > 0 ? round($total_nilai / $count, 2) : 0;
+
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar', $data);
         $this->load->view('template/topbar', $data);
@@ -616,5 +712,76 @@ class Master extends CI_Controller
         } else {
             echo "File not found at $path";
         }
+    }
+    public function export_mitra($tahun = null)
+    {
+        if (!$tahun)
+            $tahun = date('Y');
+
+        $this->db->select('mitra.*, mitra_tahun.posisi');
+        $this->db->from('mitra');
+        $this->db->join('mitra_tahun', 'mitra.id_mitra = mitra_tahun.id_mitra');
+        $this->db->where('mitra_tahun.tahun', $tahun);
+        $mitra_data = $this->db->get()->result_array();
+
+        // Load PHPExcel Library
+        require_once FCPATH . 'assets/phpexcel/Classes/PHPExcel.php';
+
+        // Create new PHPExcel object
+        $objPHPExcel = new PHPExcel();
+        $objPHPExcel->getProperties()->setCreator("BPS")
+            ->setLastModifiedBy("BPS")
+            ->setTitle("Data Mitra " . $tahun)
+            ->setSubject("Data Mitra " . $tahun)
+            ->setDescription("Data Mitra Export");
+
+        $sheet = $objPHPExcel->setActiveSheetIndex(0);
+
+        // Set Headers match Import Template
+        $headers = ['NIK', 'Nama', 'Posisi', 'Email', 'Kecamatan', 'Desa', 'Alamat', 'JK', 'No HP', 'Sobat ID'];
+        $col = 'A';
+        foreach ($headers as $h) {
+            $sheet->setCellValue($col . '1', $h);
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+            $col++;
+        }
+
+        // Style Header
+        $headerStyle = array(
+            'font' => array('bold' => true),
+            'fill' => array(
+                'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                'color' => array('rgb' => 'FFFF00')
+            )
+        );
+        $sheet->getStyle('A1:J1')->applyFromArray($headerStyle);
+
+        $row = 2;
+        foreach ($mitra_data as $m) {
+            $sheet->setCellValueExplicit('A' . $row, $m['nik'], PHPExcel_Cell_DataType::TYPE_STRING);
+            $sheet->setCellValue('B' . $row, $m['nama']);
+            $sheet->setCellValue('C' . $row, $m['posisi']);
+            $sheet->setCellValue('D' . $row, $m['email']);
+            $sheet->setCellValue('E' . $row, $m['kecamatan']);
+            $sheet->setCellValue('F' . $row, $m['desa']);
+            $sheet->setCellValue('G' . $row, $m['alamat']);
+            $sheet->setCellValue('H' . $row, $m['jk']);
+            $sheet->setCellValueExplicit('I' . $row, $m['no_hp'], PHPExcel_Cell_DataType::TYPE_STRING);
+            $sheet->setCellValue('J' . $row, $m['sobat_id']);
+            $row++;
+        }
+
+        $filename = 'Data_Mitra_' . $tahun . '_' . date('YmdHis') . '.xlsx';
+
+        // Redirect output to a client’s web browser (Excel2007)
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+        // If you're serving to IE 9, then the following may be needed
+        header('Cache-Control: max-age=1');
+
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save('php://output');
+        exit;
     }
 }

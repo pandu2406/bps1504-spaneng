@@ -1,0 +1,34 @@
+name: Deploy to Shared Hosting (FTP)
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v2
+    
+    - name: 📂 Sync files (FTP)
+      uses: SamKirkland/FTP-Deploy-Action@4.1.0
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        server-dir: ./public_html/spaneng/ # Change to ./ if root
+        exclude: |
+          **/.git*
+          **/.git*/**
+          **/.github*/**
+          tests/**
+          README.md
+          *.sql
+          upgrade_db_security.php
+          backup_db.php
+          create_log_table.php
+          check_*.php
+          list_tables.php
+          drop_tables.php

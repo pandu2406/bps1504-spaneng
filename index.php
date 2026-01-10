@@ -11,8 +11,26 @@
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
  *---------------------------------------------------------------
+ *
+ * You can load different configurations depending on your
+ * current environment. Setting the environment also influences
+ * things like logging and error reporting.
+ *
+ * This can be set to anything, but default usage is:
+ *
+ *     development
+ *     testing
+ *     production
+ *
+ * NOTE: If you change these, also change the error_reporting() code below
  */
-define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+if (isset($_SERVER['CI_ENV'])) {
+    define('ENVIRONMENT', $_SERVER['CI_ENV']);
+} elseif (isset($_SERVER['HTTP_HOST']) && strpos($_SERVER['HTTP_HOST'], 'bps-batanghari.com') !== false) {
+    define('ENVIRONMENT', 'production');
+} else {
+    define('ENVIRONMENT', 'development');
+}
 
 /*
  *---------------------------------------------------------------

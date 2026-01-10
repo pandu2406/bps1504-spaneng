@@ -29,10 +29,11 @@
     ];
     ?>
 
-    <!-- Filter Section -->
+    <!-- Filter Section (Month & Year) -->
     <div class="row mb-3">
         <div class="col-lg-12">
-            <div class="dropdown d-inline-block">
+            <!-- Filter Bulan -->
+            <div class="dropdown d-inline-block mr-2">
                 <button class="btn btn-primary dropdown-toggle shadow-sm" type="button" id="dropdownMenuButton"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-filter fa-sm text-white-50 mr-2"></i>
@@ -52,6 +53,33 @@
                     <?php endforeach; ?>
                 </div>
             </div>
+
+            <!-- Filter Tahun -->
+            <?php
+            // Define available years (could be dynamic, but hardcoded for now as per plan)
+            $available_years = [2024, 2025, 2026];
+            ?>
+            <div class="dropdown d-inline-block">
+                <button class="btn btn-info dropdown-toggle shadow-sm" type="button" id="dropdownYearButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-calendar-alt fa-sm text-white-50 mr-2"></i>
+                    <?= ($selected_tahun == 0) ? 'Pilih Tahun (Semua)' : $selected_tahun; ?>
+                </button>
+                <div class="dropdown-menu shadow animated--fade-in" aria-labelledby="dropdownYearButton">
+                    <h6 class="dropdown-header">Filter Tahun:</h6>
+                    <a class="dropdown-item <?= ($selected_tahun == 0) ? 'active' : '' ?>"
+                        href="<?= base_url('rekap/details_mitra/' . $mitra['id_mitra'] . '/' . $selected_bulan . '/0'); ?>">Semua
+                        Tahun</a>
+                    <div class="dropdown-divider"></div>
+                    <?php foreach ($available_years as $yr): ?>
+                        <a class="dropdown-item <?= ($selected_tahun == $yr) ? 'active' : '' ?>"
+                            href="<?= base_url('rekap/details_mitra/' . $mitra['id_mitra'] . '/' . $selected_bulan . '/' . $yr); ?>">
+                            <?= $yr; ?>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+
         </div>
     </div>
 

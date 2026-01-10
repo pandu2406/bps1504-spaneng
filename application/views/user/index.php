@@ -519,7 +519,7 @@
                         <?php foreach ($details as $d): ?>
                                       <?php if (is_numeric($d['start']) && is_numeric($d['finish'])): ?>
                                                       {
-                                    title: '<?= addslashes($d['nama']) ?>',
+                                    title: <?= json_encode($d['nama']) ?>,
                                     start: '<?= date('Y-m-d', $d['start']) ?>',
                                     end: '<?= date('Y-m-d', $d['finish']) ?>',
                                     extendedProps: {

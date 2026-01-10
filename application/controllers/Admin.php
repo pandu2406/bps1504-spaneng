@@ -83,11 +83,15 @@ class Admin extends CI_Controller
         $filter_bulan = $this->input->get('bulan');
         $filter_tahun = $this->input->get('tahun');
 
-        $where_sql = "";
         if ($filter_bulan && $filter_tahun) {
-            $where_sql = "WHERE FROM_UNIXTIME(k.finish, '%m') = '$filter_bulan' AND FROM_UNIXTIME(k.finish, '%Y') = '$filter_tahun'";
+            $where_sql = "WHERE FROM_UNIXTIME(k.finish, '%m') = ? AND FROM_UNIXTIME(k.finish, '%Y') = ?";
+            $params = [$filter_bulan, $filter_tahun];
         } elseif ($filter_tahun) {
-            $where_sql = "WHERE FROM_UNIXTIME(k.finish, '%Y') = '$filter_tahun'";
+            $where_sql = "WHERE FROM_UNIXTIME(k.finish, '%Y') = ?";
+            $params = [$filter_tahun];
+        } else {
+            $where_sql = "";
+            $params = [];
         }
 
         $query_top_mitra = "
@@ -105,7 +109,7 @@ class Admin extends CI_Controller
         ORDER BY (AVG(p.nilai) * (1 + (COUNT(DISTINCT akp.kegiatan_id) * 0.05))) DESC 
         LIMIT 3
     ";
-        $data['top_mitra'] = $this->db->query($query_top_mitra)->result_array();
+        $data['top_mitra'] = $this->db->query($query_top_mitra, $params)->result_array();
         $data['selected_bulan'] = $filter_bulan;
         $data['selected_tahun'] = $filter_tahun;
 
@@ -405,5 +409,107 @@ class Admin extends CI_Controller
             log_message('error', 'Email error: ' . $this->email->print_debugger());
             return false;
         }
+    }
+    public function logging()
+    {
+        $data['title'] = 'Security Command Center';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+        // 1. Total Requests
+        $data['total_requests'] = $this->db->count_all('traffic_log');
+
+        // 2. High Severity Alerts
+        $this->db->where('severity', 'critical');
+        $this->db->or_where('severity', 'high');
+        $data['critical_alerts'] = $this->db->count_all_results('security_alerts');
+
+        // 3. Unique IPs
+        $this->db->distinct();
+        $this->db->select('ip_address');
+        $data['unique_ips'] = $this->db->get('traffic_log')->num_rows();
+
+        // 4. Banned IPs Count
+        $data['banned_count'] = $this->db->count_all('banned_ips');
+
+        // 5. Top Active Users
+        $data['top_users'] = []; // Initialize to prevent undefined error
+
+        $this->db->select('user_id, COUNT(*) as hits');
+        $this->db->where('user_id IS NOT NULL', null, false);
+        $this->db->group_by('user_id');
+        $this->db->order_by('hits', 'DESC');
+        $this->db->limit(5);
+        $query_top = $this->db->get('traffic_log');
+
+        if ($query_top) {
+            $data['top_users'] = $query_top->result_array();
+        }
+
+        // 6. Traffic Trend (24h)
+        $sql_trend = "
+            SELECT DATE_FORMAT(created_at, '%H:00') as hour, COUNT(*) as count 
+            FROM traffic_log 
+            WHERE created_at >= NOW() - INTERVAL 24 HOUR 
+            GROUP BY hour 
+            ORDER BY created_at ASC
+        ";
+        $data['traffic_trend'] = $this->db->query($sql_trend)->result_array();
+
+        // 7. Alert Feed
+        $this->db->order_by('id', 'DESC');
+        $this->db->limit(10);
+        $data['alerts'] = $this->db->get('security_alerts')->result_array();
+
+        // 7. Banned IPs List
+        $data['banned_ips_list'] = $this->db->get('banned_ips')->result_array();
+
+        // 8. Recent Logs
+        $this->db->order_by('id', 'DESC');
+        $this->db->limit(100);
+        $data['logs'] = $this->db->get('traffic_log')->result_array();
+
+        // 9. Interpretation / Security Posture
+        $data['posture'] = 'safe';
+        $data['posture_text'] = 'System Stable. No critical threats detected.';
+        $data['posture_color'] = 'success';
+
+        if ($data['critical_alerts'] > 0) {
+            $data['posture'] = 'danger';
+            $data['posture_text'] = 'CRITICAL: High severity threats detected! Immediate investigation required.';
+            $data['posture_color'] = 'danger';
+        } elseif ($data['critical_alerts'] == 0 && count($data['alerts']) > 5) {
+            $data['posture'] = 'warning';
+            $data['posture_text'] = 'Elevated Risk. Multiple suspicious activities detected.';
+            $data['posture_color'] = 'warning';
+        }
+
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar', $data);
+        $this->load->view('template/topbar', $data);
+        $this->load->view('admin/logging', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function ban_ip()
+    {
+        $ip = $this->input->post('ip');
+        $reason = $this->input->post('reason');
+
+        if ($ip) {
+            $this->db->insert('banned_ips', [
+                'ip_address' => $ip,
+                'reason' => $reason
+            ]);
+            $this->session->set_flashdata('message', '<div class="alert alert-danger">IP Address Banned!</div>');
+        }
+        redirect('admin/logging');
+    }
+
+    public function unban_ip($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('banned_ips');
+        $this->session->set_flashdata('message', '<div class="alert alert-success">IP Address Unbanned!</div>');
+        redirect('admin/logging');
     }
 }

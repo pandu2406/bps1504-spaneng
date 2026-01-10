@@ -310,6 +310,7 @@ class Kegiatan extends CI_Controller
 
     public function editsurvei($id)
     {
+
         $data['title'] = 'Edit Survei';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['survei'] = $this->db->get_where('kegiatan', ['id' => $id])->row_array();
@@ -450,6 +451,7 @@ class Kegiatan extends CI_Controller
 
     public function editsensus($id)
     {
+
         $data['title'] = 'Edit Sensus';
         $data['user'] = $this->db->get_where('user', [
             'email' => $this->session->userdata('email')
@@ -516,6 +518,7 @@ class Kegiatan extends CI_Controller
 
     function deletesurvei($id)
     {
+
         // Start transaction
         $this->db->trans_start();
 
@@ -549,6 +552,7 @@ class Kegiatan extends CI_Controller
 
     function deletesensus($id)
     {
+
         // Start transaction
         $this->db->trans_start();
 
@@ -580,8 +584,12 @@ class Kegiatan extends CI_Controller
         redirect('kegiatan/sensus');
     }
 
-    public function tambah_pencacah_organik($id)
+    public function tambah_pencacah_organik($token)
     {
+        $id = get_id_by_token('kegiatan', $token);
+        if (!$id) {
+            redirect('kegiatan');
+        }
         $data['title'] = 'Tambah Pencacah Organik';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
@@ -663,8 +671,12 @@ class Kegiatan extends CI_Controller
         }
     }
 
-    public function tambah_pencacah($id)
+    public function tambah_pencacah($token)
     {
+        $id = get_id_by_token('kegiatan', $token);
+        if (!$id) {
+            redirect('kegiatan');
+        }
         $data['title'] = 'Tambah Pencacah';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
@@ -680,12 +692,12 @@ class Kegiatan extends CI_Controller
         // Get list of existing assignments for sync logic
         // We need all mitra active in that year, regardless if they are currently assigned or not, to show the list.
 
-        $sql_bentuk_kegiatan = "SELECT kegiatan.ob FROM kegiatan WHERE kegiatan.id = $id";
-        $bentuk_kegiatan = (int) implode($this->db->query($sql_bentuk_kegiatan)->row_array());
+        $sql_bentuk_kegiatan = "SELECT kegiatan.ob FROM kegiatan WHERE kegiatan.id = ?";
+        $bentuk_kegiatan = (int) implode($this->db->query($sql_bentuk_kegiatan, [$id])->row_array());
 
         // Ambil semua mitra aktif TAHUN TERKAIT, kecuali yang jadi pengawas di kegiatan ini
-        $sql_id_mitra_pengawas = "SELECT id_pengawas FROM all_kegiatan_pengawas WHERE kegiatan_id = $id";
-        $pengawas_ids = $this->db->query($sql_id_mitra_pengawas)->result_array();
+        $sql_id_mitra_pengawas = "SELECT id_pengawas FROM all_kegiatan_pengawas WHERE kegiatan_id = ?";
+        $pengawas_ids = $this->db->query($sql_id_mitra_pengawas, [$id])->result_array();
         $ids_to_exclude = [];
         foreach ($pengawas_ids as $p) {
             if ($p['id_pengawas'])
@@ -727,6 +739,7 @@ class Kegiatan extends CI_Controller
             $this->Rekap_model->sync_rincian_honor($id_mitra, $id);
 
             $this->session->set_flashdata('message', '<div class="alert alert-success">Pencacah berhasil ditambahkan!</div>');
+            $this->session->set_flashdata('message', '<div class="alert alert-success">Pencacah berhasil ditambahkan!</div>');
             redirect('kegiatan/tambah_pencacah/' . $id);
         }
 
@@ -749,17 +762,17 @@ class Kegiatan extends CI_Controller
             FROM all_kegiatan_pencacah akp 
             JOIN mitra m ON akp.id_mitra = m.id_mitra 
             LEFT JOIN kode_kecamatan kk ON m.kecamatan = kk.kode 
-            WHERE akp.kegiatan_id = $id
+            WHERE akp.kegiatan_id = ?
             UNION ALL
             SELECT p.id_peg as id_pencacah, p.nip as nik, p.nama, p.email as alamat, '-' as kecamatan, 'pegawai' as type 
             FROM all_kegiatan_pencacah akp 
             JOIN pegawai p ON akp.id_peg = p.id_peg 
-            WHERE akp.kegiatan_id = $id
+            WHERE akp.kegiatan_id = ?
         ";
-        $data['pencacah'] = $this->db->query($sqlpencacah)->result_array();
+        $data['pencacah'] = $this->db->query($sqlpencacah, [$id, $id])->result_array();
 
-        $sqlkuota = "SELECT count(kegiatan_id) as kegiatan_id FROM all_kegiatan_pencacah WHERE kegiatan_id = $id";
-        $data['kuota'] = $this->db->query($sqlkuota)->row_array();
+        $sqlkuota = "SELECT count(kegiatan_id) as kegiatan_id FROM all_kegiatan_pencacah WHERE kegiatan_id = ?";
+        $data['kuota'] = $this->db->query($sqlkuota, [$id])->row_array();
 
         $data['kegiatan'] = $this->db->get_where('kegiatan', ['id' => $id])->row_array();
 
@@ -854,8 +867,8 @@ class Kegiatan extends CI_Controller
         ];
 
         // Ambil email mitra
-        $queryemail = "SELECT email FROM mitra WHERE id_mitra = $id_mitra";
-        $email = implode($this->db->query($queryemail)->row_array());
+        $queryemail = "SELECT email FROM mitra WHERE id_mitra = ?";
+        $email = implode($this->db->query($queryemail, [$id_mitra])->row_array());
 
         $data2 = [
             'email' => $email,
@@ -949,8 +962,8 @@ class Kegiatan extends CI_Controller
         $sqlpengawas = "SELECT pegawai.* FROM pegawai";
         $data['pengawas'] = $this->db->query($sqlpengawas)->result_array();
 
-        $sqlkuota = "SELECT count(kegiatan_id) as kegiatan_id FROM all_kegiatan_pengawas WHERE kegiatan_id = $id";
-        $data['kuota'] = $this->db->query($sqlkuota)->row_array();
+        $sqlkuota = "SELECT count(kegiatan_id) as kegiatan_id FROM all_kegiatan_pengawas WHERE kegiatan_id = ?";
+        $data['kuota'] = $this->db->query($sqlkuota, [$id])->row_array();
 
         $data['kegiatan'] = $this->db->get_where('kegiatan', ['id' => $id])->row_array();
 
@@ -1003,8 +1016,8 @@ class Kegiatan extends CI_Controller
 
         $data['pengawas'] = $this->db->query($sqlpengawas, [$tahun_kegiatan])->result_array();
 
-        $sqlkuota = "SELECT count(kegiatan_id) as kegiatan_id FROM all_kegiatan_pengawas WHERE kegiatan_id = $id";
-        $data['kuota'] = $this->db->query($sqlkuota)->row_array();
+        $sqlkuota = "SELECT count(kegiatan_id) as kegiatan_id FROM all_kegiatan_pengawas WHERE kegiatan_id = ?";
+        $data['kuota'] = $this->db->query($sqlkuota, [$id])->row_array();
 
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar', $data);
@@ -1284,21 +1297,21 @@ class Kegiatan extends CI_Controller
     }
 
 
-    function details_kegiatan_pengawas($kegiatan_id, $id)
+    function details_kegiatan_pengawas($id, $id_pengawas)
     {
         $data['title'] = 'Details Kegiatan';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
         $now = time();
 
-        $sql = "SELECT all_kegiatan_pengawas.*, kegiatan.* FROM all_kegiatan_pengawas INNER JOIN kegiatan ON all_kegiatan_pengawas.kegiatan_id = kegiatan.id WHERE all_kegiatan_pengawas.id_pengawas = $id AND ((kegiatan.start <= $now AND kegiatan.finish >= $now) OR (kegiatan.start > $now)) ORDER BY kegiatan.start";
+        $sql = "SELECT all_kegiatan_pengawas.*, kegiatan.* FROM all_kegiatan_pengawas INNER JOIN kegiatan ON all_kegiatan_pengawas.kegiatan_id = kegiatan.id WHERE all_kegiatan_pengawas.id_pengawas = $id_pengawas AND ((kegiatan.start <= $now AND kegiatan.finish >= $now) OR (kegiatan.start > $now)) ORDER BY kegiatan.start";
         $data['details'] = $this->db->query($sql)->result_array();
 
         $jumlahkegiatan = count($data['details']);
 
         if ($jumlahkegiatan > 0) {
 
-            $data['pengawas'] = $this->db->get_where('pegawai', ['id_peg' => $id])->row_array();
+            $data['pengawas'] = $this->db->get_where('pegawai', ['id_peg' => $id_pengawas])->row_array();
 
             $this->load->view('template/header', $data);
             $this->load->view('template/sidebar', $data);
@@ -1311,21 +1324,21 @@ class Kegiatan extends CI_Controller
         }
     }
 
-    function details_kegiatan_pengawas_mitra($kegiatan_id, $id)
+    function details_kegiatan_pengawas_mitra($kegiatan_id, $id_pengawas)
     {
         $data['title'] = 'Details Kegiatan';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
         $now = time();
 
-        $sql = "SELECT all_kegiatan_pengawas.*, kegiatan.* FROM all_kegiatan_pengawas INNER JOIN kegiatan ON all_kegiatan_pengawas.kegiatan_id = kegiatan.id WHERE all_kegiatan_pengawas.id_pengawas = $id AND ((kegiatan.start <= $now AND kegiatan.finish >= $now) OR (kegiatan.start > $now)) ORDER BY kegiatan.start";
+        $sql = "SELECT all_kegiatan_pengawas.*, kegiatan.* FROM all_kegiatan_pengawas INNER JOIN kegiatan ON all_kegiatan_pengawas.kegiatan_id = kegiatan.id WHERE all_kegiatan_pengawas.id_pengawas = $id_pengawas AND ((kegiatan.start <= $now AND kegiatan.finish >= $now) OR (kegiatan.start > $now)) ORDER BY kegiatan.start";
         $data['details'] = $this->db->query($sql)->result_array();
 
         $jumlahkegiatan = count($data['details']);
 
         if ($jumlahkegiatan > 0) {
 
-            $data['pengawas'] = $this->db->get_where('mitra', ['id_mitra' => $id])->row_array();
+            $data['pengawas'] = $this->db->get_where('mitra', ['id_mitra' => $id_pengawas])->row_array();
 
             $this->load->view('template/header', $data);
             $this->load->view('template/sidebar', $data);
@@ -1458,8 +1471,12 @@ class Kegiatan extends CI_Controller
         }
     }
 
-    function pencacahterpilih($kegiatan_id, $id_peg)
+    function pencacahterpilih($kegiatan_token, $id_peg)
     {
+        $kegiatan_id = get_id_by_token('kegiatan', $kegiatan_token);
+        if (!$kegiatan_id) {
+            redirect('kegiatan');
+        }
         $data['title'] = 'Pencacah Terpilih';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 

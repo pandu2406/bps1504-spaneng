@@ -60,6 +60,16 @@
                                 </select>
                             </div>
 
+                            <!-- Filter Has PML Mitra -->
+                            <div class="form-group col-md-3">
+                                <label for="has_pml_mitra">Jenis Pengawas</label>
+                                <select name="has_pml_mitra" id="has_pml_mitra" class="form-control">
+                                    <option value="">-- Semua --</option>
+                                    <option value="1" <?= ($this->input->get('has_pml_mitra') == '1') ? 'selected' : '' ?>>
+                                        Ada PML Mitra</option>
+                                </select>
+                            </div>
+
                             <!-- Filter Tahun -->
                             <div class="form-group col-md-2">
                                 <label for="tahun">Tahun</label>
@@ -102,7 +112,13 @@
 
                         <?php foreach ($kegiatan as $k): ?>
                             <tr align="center">
-                                <td><?= $k['nama']; ?></td>
+                                <td>
+                                    <?= $k['nama']; ?>
+                                    <?php if (!empty($k['has_mitra_pml'])): ?>
+                                        <br><span class="badge badge-warning text-dark"><i class="fas fa-user-friends"></i> Ada
+                                            PML Mitra</span>
+                                    <?php endif; ?>
+                                </td>
                                 <td><?= date('d F Y', $k['start']); ?></td>
                                 <td><?= date('d F Y', $k['finish']); ?></td>
                                 <?php $now = time(); ?>

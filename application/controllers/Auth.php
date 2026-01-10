@@ -56,7 +56,8 @@ class Auth extends CI_Controller
         // 2. CEK USER (AUTO-DETECT ROLE)
         // ===============================
         // Cari user berdasarkan email saja, tanpa role_id
-        $user = $this->db->get_where('user', [
+        // FIX: Gunakan tabel user_old karena tabel user kosong (atau view bermasalah)
+        $user = $this->db->get_where('user_old', [
             'email' => $email
         ])->row_array();
 

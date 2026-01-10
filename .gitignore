@@ -11,6 +11,14 @@ application/logs/log-*.php
 /assets/img/profile/
 !/assets/img/profile/default.jpg
 
+# Database
+*.sql
+
+# Archives
+*.zip
+*.rar
+*.tar.gz
+
 # OS
 .DS_Store
 Thumbs.db

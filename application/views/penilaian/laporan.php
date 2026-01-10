@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="utf-8">
-    <title><?= htmlspecialchars($kegiatan['nama']); ?> - <?= htmlspecialchars($mitra['nama']); ?> - Laporan Penilaian Kinerja Mitra</title>
+    <title><?= htmlspecialchars($kegiatan['nama']); ?> - <?= htmlspecialchars($mitra['nama']); ?> - Laporan Penilaian
+        Kinerja Mitra</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
@@ -37,6 +38,7 @@
         }
 
         @media print {
+
             html,
             body {
                 width: 210mm;
@@ -76,7 +78,6 @@
         .text-center {
             text-align: center;
         }
-
     </style>
 </head>
 
@@ -84,8 +85,10 @@
     <div class="page">
         <table style="width: 100%;">
             <tr>
-                <td align="left"><img src="<?= base_url('assets/img/bps.png'); ?>" style="width:300px;" alt="bpsBatang Hari"></td>
-                <td align="right"><img src="<?= base_url('assets/img/tagline.png'); ?>" style="width: 170px;" alt="tagline"></td>
+                <td align="left"><img src="<?= base_url('assets/img/bps.png'); ?>" style="width:300px;"
+                        alt="bpsBatang Hari"></td>
+                <td align="right"><img src="<?= base_url('assets/img/tagline.png'); ?>" style="width: 170px;"
+                        alt="tagline"></td>
             </tr>
         </table>
         <br>
@@ -120,17 +123,17 @@
                 </tr>
             </thead>
             <tbody>
-                <?php 
+                <?php
                 if (!isset($jumlah_kriteria)) {
                     $jumlah_kriteria = count($penilaian);
                 }
 
-                $i = 1; 
+                $i = 1;
                 $total_nilai = 0;
                 $total_bobot = 0;
                 $total_nilai_terbobot = 0;
 
-                foreach ($penilaian as $p): 
+                foreach ($penilaian as $p):
                     $nilai = $p['nilai'];
                     $bobot = isset($p['bobot']) ? $p['bobot'] : 0;
                     $nilai_terbobot = $nilai * $bobot;
@@ -138,7 +141,7 @@
                     $total_nilai += $nilai;
                     $total_bobot += $bobot;
                     $total_nilai_terbobot += $nilai_terbobot;
-                ?>
+                    ?>
                     <tr align="center">
                         <td><?= $i ?></td>
                         <td align="left"><?= htmlspecialchars($p['nama']); ?></td>
@@ -146,9 +149,9 @@
                         <td><?= number_format($bobot, 2); ?></td>
                         <td><?= number_format($nilai_terbobot, 2); ?></td>
                     </tr>
-                <?php 
-                    $i++; 
-                endforeach; 
+                    <?php
+                    $i++;
+                endforeach;
 
                 $rata_rata = $jumlah_kriteria > 0 ? $total_nilai / $jumlah_kriteria : 0;
                 $rata_rata_berbobot = $total_bobot > 0 ? $total_nilai_terbobot / $total_bobot : 0;
@@ -182,12 +185,12 @@
                 <th align="center" style="width:50%">Penanggung Jawab Kegiatan</th>
             </tr>
             <tr>
-            <td align="center" style="padding-top: 80px;">
-            <?= htmlspecialchars($penilai['nama'] ?? 'Penilai tidak ditemukan'); ?>
-        </td>
-        <td align="center" style="padding-top: 80px;">
-            <?= htmlspecialchars($pjk ?? 'Penanggung Jawab tidak ditemukan'); ?>
-        </td>
+                <td align="center" style="padding-top: 80px;">
+                    <?= htmlspecialchars($penilai['nama'] ?? 'Penilai tidak ditemukan'); ?>
+                </td>
+                <td align="center" style="padding-top: 80px;">
+                    <?= htmlspecialchars($pjk ?? 'Penanggung Jawab tidak ditemukan'); ?>
+                </td>
             </tr>
         </table>
     </div>
@@ -232,7 +235,7 @@ if ($nilai_max > 80) {
             labels: [
                 <?php
                 foreach ($penilaian as $data) {
-                    echo "'" . addslashes($data['nama']) . "',";
+                    echo json_encode($data['nama']) . ",";
                 }
                 ?>
             ],
@@ -274,7 +277,7 @@ if ($nilai_max > 80) {
                 tooltip: {
                     enabled: true,
                     callbacks: {
-                        label: function(context) {
+                        label: function (context) {
                             return context.dataset.label + ': ' + context.raw.toFixed(2);
                         }
                     }
@@ -309,7 +312,7 @@ if ($nilai_max > 80) {
             }
         }
     });
-    setTimeout(function() {
-  window.print();
-}, 800);
+    setTimeout(function () {
+        window.print();
+    }, 800);
 </script>

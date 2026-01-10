@@ -1,0 +1,9 @@
+=== mitra ===
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `mitra` AS select `mitra_old`.`id_mitra` AS `id_mitra`,`mitra_old`.`nik` AS `nik`,`mitra_old`.`nama` AS `nama`,`mitra_old`.`posisi` AS `posisi`,`mitra_old`.`email` AS `email`,`mitra_old`.`kecamatan` AS `kecamatan`,`mitra_old`.`desa` AS `desa`,`mitra_old`.`alamat` AS `alamat`,`mitra_old`.`jk` AS `jk`,`mitra_old`.`no_hp` AS `no_hp`,`mitra_old`.`sobat_id` AS `sobat_id`,`mitra_old`.`tahun` AS `tahun`,`mitra_old`.`is_active` AS `is_active` from `mitra_old`
+
+=== pegawai ===
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `pegawai` AS select `pegawai_old`.`id_peg` AS `id_peg`,`pegawai_old`.`nip` AS `nip`,`pegawai_old`.`nama` AS `nama`,`pegawai_old`.`email` AS `email`,`pegawai_old`.`jabatan` AS `jabatan` from `pegawai_old`
+
+=== kegiatan ===
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `kegiatan` AS select `kegiatan_old`.`id` AS `id`,`kegiatan_old`.`nama` AS `nama`,`kegiatan_old`.`periodisitas` AS `periodisitas`,`kegiatan_old`.`start` AS `start`,`kegiatan_old`.`finish` AS `finish`,`kegiatan_old`.`k_pengawas` AS `k_pengawas`,`kegiatan_old`.`k_pencacah` AS `k_pencacah`,`kegiatan_old`.`jenis_kegiatan` AS `jenis_kegiatan`,`kegiatan_old`.`seksi_id` AS `seksi_id`,`kegiatan_old`.`ob` AS `ob`,`kegiatan_old`.`posisi` AS `posisi`,`kegiatan_old`.`satuan` AS `satuan`,`kegiatan_old`.`honor` AS `honor`,`kegiatan_old`.`beban_standar` AS `beban_standar`,`kegiatan_old`.`is_notification_sent` AS `is_notification_sent` from `kegiatan_old`
+

@@ -27,9 +27,7 @@
 
         <?= form_open('auth', ['class' => 'user', 'method' => 'post']) ?>
 
-        <!-- CSRF TOKEN -->
-        <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>"
-            value="<?= $this->security->get_csrf_hash(); ?>">
+
 
         <!-- Email Input -->
         <div class="input-group-material">
@@ -194,7 +192,8 @@
                 </button>
             </div>
             <div class="modal-body p-4" style="color: var(--text-main);">
-                <div class="alert alert-primary border-0 shadow-sm mb-4" style="background-color: rgba(78, 115, 223, 0.1); color: var(--text-main); border-left: 4px solid #4e73df;">
+                <div class="alert alert-primary border-0 shadow-sm mb-4"
+                    style="background-color: rgba(78, 115, 223, 0.1); color: var(--text-main); border-left: 4px solid #4e73df;">
                     <div class="d-flex align-items-center">
                         <i class="fas fa-info-circle fa-lg mr-3 text-primary"></i>
                         <div>
@@ -203,11 +202,14 @@
                         </div>
                     </div>
                 </div>
-                <h6 class="font-weight-bold mb-3"><i class="fas fa-check-circle text-success mr-2"></i>Langkah Masuk:</h6>
+                <h6 class="font-weight-bold mb-3"><i class="fas fa-check-circle text-success mr-2"></i>Langkah Masuk:
+                </h6>
                 <ul class="pl-4 mb-0" style="line-height: 1.8; font-size: 0.95rem;">
                     <li class="mb-2">Masukkan <strong>Email</strong> yang terdaftar pada sistem.</li>
-                    <li class="mb-2">Password default untuk login pertama: <code class="bg-light px-2 py-1 rounded text-danger font-weight-bold">12345678</code></li>
-                    <li class="mb-2">Demi keamanan, <span class="text-warning font-weight-bold">wajib ganti password</span> setelah berhasil login.</li>
+                    <li class="mb-2">Password default untuk login pertama: <code
+                            class="bg-light px-2 py-1 rounded text-danger font-weight-bold">12345678</code></li>
+                    <li class="mb-2">Demi keamanan, <span class="text-warning font-weight-bold">wajib ganti
+                            password</span> setelah berhasil login.</li>
                     <li>Jika mengalami kendala, silakan hubungi tim IPDS.</li>
                 </ul>
             </div>

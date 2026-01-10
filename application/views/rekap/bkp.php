@@ -12,11 +12,13 @@
                     Pilih Bulan
                 </button>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="<?= base_url('rekap/filter_periode_pegawai/0/' . $selected_tahun); ?>">Semua Bulan</a>
+                    <a class="dropdown-item"
+                        href="<?= base_url('rekap/filter_periode_pegawai/0/' . $selected_tahun); ?>">Semua Bulan</a>
                     <?php
                     $bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
                     foreach ($bulan as $i => $b): ?>
-                        <a class="dropdown-item" href="<?= base_url('rekap/filter_periode_pegawai/' . ($i + 1) . '/' . $selected_tahun); ?>"><?= $b; ?></a>
+                        <a class="dropdown-item"
+                            href="<?= base_url('rekap/filter_periode_pegawai/' . ($i + 1) . '/' . $selected_tahun); ?>"><?= $b; ?></a>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -27,10 +29,12 @@
                     Pilih Tahun
                 </button>
                 <div class="dropdown-menu">
-                    <?php 
+                    <?php
                     $tahun_sekarang = date('Y');
                     for ($t = $tahun_sekarang; $t >= $tahun_sekarang - 5; $t--): ?>
-                        <a class="dropdown-item" href="<?= base_url('rekap/filter_periode_pegawai/' . $selected_bulan . '/' . $t); ?>">Tahun <?= $t; ?></a>
+                        <a class="dropdown-item"
+                            href="<?= base_url('rekap/filter_periode_pegawai/' . $selected_bulan . '/' . $t); ?>">Tahun
+                            <?= $t; ?></a>
                     <?php endfor; ?>
                 </div>
             </div>
@@ -43,18 +47,21 @@
                             <th scope="col">#</th>
                             <th scope="col">Nama</th>
                             <th scope="col">Pengawasan</th>
+                            <th scope="col">Pendataan</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody style="background-color: #ffffff; color: #00264d;">
                         <?php $i = 1; ?>
-                        <?php foreach ($rekap as $r) : ?>
+                        <?php foreach ($rekap as $r): ?>
                             <tr align="center">
                                 <th scope="row"><?= $i++; ?></th>
                                 <td><?= $r['nama']; ?></td>
                                 <td><?= $r['jk']; ?></td>
+                                <td><?= $r['jk_p']; ?></td>
                                 <td>
-                                    <a href="<?= base_url('rekap/details_pegawai/' . $r['id_peg'] . '/' . $selected_bulan . '/' . $selected_tahun); ?>" class="badge badge-success">Details Kegiatan</a>
+                                    <a href="<?= base_url('rekap/details_pegawai/' . $r['id_peg'] . '/' . $selected_bulan . '/' . $selected_tahun); ?>"
+                                        class="badge badge-success">Details Kegiatan</a>
                                 </td>
                             </tr>
                         <?php endforeach ?>
@@ -67,4 +74,4 @@
     <br>
 </div>
 <!-- End of Main Content -->
-                        </div>
+</div>

@@ -97,11 +97,26 @@ class Penilaian extends CI_Controller
             return;
         }
 
+        // Ambil input filter
+        $filter_bulan = $this->input->get('bulan');
+        $filter_tahun = $this->input->get('tahun');
+        $data['selected_bulan'] = $filter_bulan;
+        $data['selected_tahun'] = $filter_tahun;
+
         // Ambil kegiatan berdasarkan id_pengawas
         $this->db->select('all_kegiatan_pengawas.*, kegiatan.*');
         $this->db->from('all_kegiatan_pengawas');
         $this->db->join('kegiatan', 'all_kegiatan_pengawas.kegiatan_id = kegiatan.id');
         $this->db->where('all_kegiatan_pengawas.id_pengawas', $id_peg);
+
+        // Apply Filters
+        if ($filter_bulan) {
+            $this->db->where("FROM_UNIXTIME(kegiatan.finish, '%m') =", sprintf("%02d", $filter_bulan));
+        }
+        if ($filter_tahun) {
+            $this->db->where("FROM_UNIXTIME(kegiatan.finish, '%Y') =", $filter_tahun);
+        }
+
         $data['kegiatan'] = $this->db->get()->result_array();
 
         // Calculate Assessment Progress
@@ -224,7 +239,7 @@ class Penilaian extends CI_Controller
 
         // Calculate Assessment Progress (Similar to index)
         $jumlah_kriteria = $this->db->count_all('kriteria');
-        foreach ($data['kegiatan'] as &$k) {
+        foreach ($data['kegiatan'] as $key => &$k) {
             $this->db->select('id');
             $this->db->from('all_kegiatan_pencacah');
             $this->db->where('kegiatan_id', $k['id']);
@@ -249,6 +264,20 @@ class Penilaian extends CI_Controller
                         $k['assessed_mitra']++;
                     }
                 }
+            }
+
+
+            // Check if activity has Mitra PMLs
+            $k['has_mitra_pml'] = $this->db
+                ->from('all_kegiatan_pengawas akp')
+                ->join('mitra m', 'akp.id_pengawas = m.id_mitra')
+                ->where('akp.kegiatan_id', $k['id'])
+                ->count_all_results() > 0;
+
+            // Filter out if 'has_pml_mitra' filter is active and this activity doesn't have one
+            if ($this->input->get('has_pml_mitra') && !$k['has_mitra_pml']) {
+                unset($data['kegiatan'][$key]); // Remove from list
+                continue; // Skip further processing
             }
         }
         unset($k);

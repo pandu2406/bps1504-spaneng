@@ -40,6 +40,9 @@
                             <a href="<?= base_url('master/download_format') ?>" class="btn btn-outline-danger">
                                 <i class="fas fa-file-download mr-1"></i> Format Import
                             </a>
+                            <a href="<?= base_url('master/export_mitra/' . $tahun) ?>" class="btn btn-success ml-2">
+                                <i class="fas fa-file-excel mr-1"></i> Export Excel
+                            </a>
                         </div>
                     </div>
 

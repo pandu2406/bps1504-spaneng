@@ -44,6 +44,15 @@ class User extends CI_Controller
         WHERE m.email = '$email'
     ")->row_array();
 
+        // Fix: Fetch 'posisi' from mitra_tahun if mitra exists
+        if ($data['mitra']) {
+            $this->db->order_by('tahun', 'DESC');
+            $mitra_tahun = $this->db->get_where('mitra_tahun', ['id_mitra' => $data['mitra']['id_mitra']])->row_array();
+            // Use position from year table, fallback to main table, then '-'
+            $data['mitra']['posisi'] = $mitra_tahun ? $mitra_tahun['posisi'] : ($data['mitra']['posisi'] ?? '-');
+            $data['mitra']['tahun_posisi'] = $mitra_tahun ? $mitra_tahun['tahun'] : '-';
+        }
+
         $now = time();
 
         $data['k_berjalan'] = $this->db->query("SELECT * FROM kegiatan WHERE start <= $now AND finish >= $now")->num_rows();
