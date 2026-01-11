@@ -204,19 +204,23 @@ class Rekap_model extends CI_Model
         $mitra = $this->db->get('mitra')->result();
 
         $result = [];
+        // Condition for year: if 0, select all years
+        $yearCondition = ($tahun > 0) ? "AND YEAR(FROM_UNIXTIME(k.finish)) = " . (int) $tahun : "";
 
         foreach ($mitra as $m) {
             $bulanan = array_fill(1, 12, 0); // default 0 untuk semua bulan
 
-            $query = $this->db->query("
+            $sql = "
             SELECT 
                 MONTH(FROM_UNIXTIME(k.finish)) AS bulan,
                 SUM(rk.total_honor) AS total_honor
             FROM rinciankegiatan rk
             JOIN kegiatan k ON k.id = rk.kegiatan_id
-            WHERE rk.id_mitra = ? AND YEAR(FROM_UNIXTIME(k.finish)) = ?
+            WHERE rk.id_mitra = ? $yearCondition
             GROUP BY MONTH(FROM_UNIXTIME(k.finish))
-        ", [$m->id_mitra, $tahun]);
+            ";
+
+            $query = $this->db->query($sql, [$m->id_mitra]);
 
             foreach ($query->result() as $row) {
                 $bulanan[(int) $row->bulan] = (float) $row->total_honor;
@@ -239,15 +243,13 @@ class Rekap_model extends CI_Model
         $all_mitra = $this->db->get('mitra')->result();
         $result = [];
 
-        // Siapkan data awal (0 semua)
+        // Siapkan data awal
         foreach ($all_mitra as $mitra) {
             $result[$mitra->id_mitra] = (object) [
                 'nama_mitra' => $mitra->nama,
-                'bulanan' => []
+                'bulanan' => array_fill(1, 12, 0),
+                'total_kegiatan' => 0 // New field
             ];
-            for ($i = 1; $i <= 12; $i++) {
-                $result[$mitra->id_mitra]->bulanan[$i] = 0;
-            }
         }
 
         // Loop setiap bulan
@@ -255,7 +257,10 @@ class Rekap_model extends CI_Model
             $bulanan = $this->getTotalNilaiBulananSAW($bulan, $tahun);
 
             foreach ($bulanan as $id_mitra => $row) {
-                $result[$id_mitra]->bulanan[$bulan] = round($row->rata_nilai, 2);
+                if (isset($result[$id_mitra])) {
+                    $result[$id_mitra]->bulanan[$bulan] = round($row->rata_nilai, 2);
+                    $result[$id_mitra]->total_kegiatan += $row->count; // Aggregate count
+                }
             }
         }
 
@@ -264,15 +269,18 @@ class Rekap_model extends CI_Model
 
     public function getTotalNilaiBulananSAW($bulan, $tahun)
     {
+        $yearCondition = ($tahun > 0) ? "AND YEAR(FROM_UNIXTIME(finish)) = " . (int) $tahun : "";
+
         $kegiatan = $this->db->query("
-        SELECT id, nama
-        FROM kegiatan
-        WHERE MONTH(FROM_UNIXTIME(finish)) = ? AND YEAR(FROM_UNIXTIME(finish)) = ?
-    ", [$bulan, $tahun])->result();
+            SELECT id, nama
+            FROM kegiatan
+            WHERE MONTH(FROM_UNIXTIME(finish)) = ? $yearCondition
+        ", [$bulan])->result();
 
         $result = [];
 
         foreach ($kegiatan as $keg) {
+            // Assuming Ranking_model->totalakhir returns list of mitras with scores for this activity
             $totalakhir = $this->Ranking_model->totalakhir($keg->id);
 
             foreach ($totalakhir as $row) {
@@ -286,8 +294,8 @@ class Rekap_model extends CI_Model
                     ];
                 }
 
-                $result[$key]->total += $row->total;
-                $result[$key]->count += 1;
+                $result[$key]->total += $row->total; // Sum of scores
+                $result[$key]->count += 1; // Count of activities
             }
         }
 

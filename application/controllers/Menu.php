@@ -12,6 +12,7 @@ class Menu extends CI_Controller
 
     public function index()
     {
+        $this->output->cache(1);
         $data['title'] = 'Menu Management';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
@@ -34,6 +35,7 @@ class Menu extends CI_Controller
 
     public function submenu()
     {
+        $this->output->cache(1);
         $data['title'] = 'Submenu Management';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $this->load->model('Menu_model', 'menu');

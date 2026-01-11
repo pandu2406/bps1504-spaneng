@@ -27,24 +27,24 @@
  */
 class PHPExcel_Reader_Excel5_Escher
 {
-    const DGGCONTAINER      = 0xF000;
-    const BSTORECONTAINER   = 0xF001;
-    const DGCONTAINER       = 0xF002;
-    const SPGRCONTAINER     = 0xF003;
-    const SPCONTAINER       = 0xF004;
-    const DGG               = 0xF006;
-    const BSE               = 0xF007;
-    const DG                = 0xF008;
-    const SPGR              = 0xF009;
-    const SP                = 0xF00A;
-    const OPT               = 0xF00B;
-    const CLIENTTEXTBOX     = 0xF00D;
-    const CLIENTANCHOR      = 0xF010;
-    const CLIENTDATA        = 0xF011;
-    const BLIPJPEG          = 0xF01D;
-    const BLIPPNG           = 0xF01E;
-    const SPLITMENUCOLORS   = 0xF11E;
-    const TERTIARYOPT       = 0xF122;
+    const DGGCONTAINER = 0xF000;
+    const BSTORECONTAINER = 0xF001;
+    const DGCONTAINER = 0xF002;
+    const SPGRCONTAINER = 0xF003;
+    const SPCONTAINER = 0xF004;
+    const DGG = 0xF006;
+    const BSE = 0xF007;
+    const DG = 0xF008;
+    const SPGR = 0xF009;
+    const SP = 0xF00A;
+    const OPT = 0xF00B;
+    const CLIENTTEXTBOX = 0xF00D;
+    const CLIENTANCHOR = 0xF010;
+    const CLIENTDATA = 0xF011;
+    const BLIPJPEG = 0xF01D;
+    const BLIPPNG = 0xF01E;
+    const SPLITMENUCOLORS = 0xF11E;
+    const TERTIARYOPT = 0xF122;
 
     /**
      * Escher stream data (binary)
@@ -280,16 +280,16 @@ class PHPExcel_Reader_Excel5_Escher
         $foDelay = PHPExcel_Reader_Excel5::getInt4d($recordData, 28);
 
         // offset: 32; size: 1; unused1
-        $unused1 = ord($recordData{32});
+        $unused1 = ord($recordData[32]);
 
         // offset: 33; size: 1; size of nameData in bytes (including null terminator)
-        $cbName = ord($recordData{33});
+        $cbName = ord($recordData[33]);
 
         // offset: 34; size: 1; unused2
-        $unused2 = ord($recordData{34});
+        $unused2 = ord($recordData[34]);
 
         // offset: 35; size: 1; unused3
-        $unused3 = ord($recordData{35});
+        $unused3 = ord($recordData[35]);
 
         // offset: 36; size: $cbName; nameData
         $nameData = substr($recordData, 36, $cbName);
@@ -331,7 +331,7 @@ class PHPExcel_Reader_Excel5_Escher
         }
 
         // offset: var; size: 1; tag
-        $tag = ord($recordData{$pos});
+        $tag = ord($recordData[$pos]);
         $pos += 1;
 
         // offset: var; size: var; the raw image data
@@ -372,7 +372,7 @@ class PHPExcel_Reader_Excel5_Escher
         }
 
         // offset: var; size: 1; tag
-        $tag = ord($recordData{$pos});
+        $tag = ord($recordData[$pos]);
         $pos += 1;
 
         // offset: var; size: var; the raw image data

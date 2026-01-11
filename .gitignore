@@ -26,3 +26,15 @@ Thumbs.db
 # IDE
 .vscode/
 .idea/
+
+# CI3 Cache & Sessions
+application/cache/*
+!application/cache/index.html
+!application/cache/.htaccess
+application/sessions/*
+!application/sessions/index.html
+!application/sessions/.htaccess
+
+# Temp files
+debug_export.txt
+__pycache__/

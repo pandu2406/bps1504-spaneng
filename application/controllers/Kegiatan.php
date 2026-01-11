@@ -14,6 +14,7 @@ class Kegiatan extends CI_Controller
 
     public function index()
     {
+        $this->output->cache(1);
         $data['title'] = 'Kegiatan';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
@@ -45,6 +46,7 @@ class Kegiatan extends CI_Controller
 
     public function survei()
     {
+        $this->output->cache(1);
         $data['title'] = 'Survei';
         $data['user'] = $this->db->get_where('user', [
             'email' => $this->session->userdata('email')
@@ -202,6 +204,7 @@ class Kegiatan extends CI_Controller
 
     public function sensus()
     {
+        $this->output->cache(1);
         $data['title'] = 'Sensus';
         $data['user'] = $this->db->get_where('user', [
             'email' => $this->session->userdata('email')
@@ -754,6 +757,7 @@ class Kegiatan extends CI_Controller
 
     function mitraterpilih($id)
     {
+        $this->output->cache(1);
         $data['title'] = 'Pencacah Terpilih';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
@@ -785,6 +789,7 @@ class Kegiatan extends CI_Controller
 
     function details_kegiatan_mitra($kegiatan_id, $id_mitra)
     {
+        $this->output->cache(1);
         $data['title'] = 'Details Kegiatan';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 

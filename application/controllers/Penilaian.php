@@ -14,6 +14,7 @@ class Penilaian extends CI_Controller
 
     public function index()
     {
+        $this->output->cache(1);
         $data['title'] = 'Penilaian Mitra';
         $data['user'] = $this->db->get_where('user', [
             'email' => $this->session->userdata('email')
@@ -160,6 +161,7 @@ class Penilaian extends CI_Controller
 
     public function index_pml()
     {
+        $this->output->cache(1);
         $data['title'] = 'Penilaian PML';
         $data['user'] = $this->db->get_where('user', [
             'email' => $this->session->userdata('email')
@@ -291,6 +293,7 @@ class Penilaian extends CI_Controller
 
     public function daftar_pencacah($kegiatan_id, $id_peg)
     {
+        $this->output->cache(1);
         $data['title'] = 'Daftar Pencacah';
         $data['user'] = $this->db->get_where('user', [
             'email' => $this->session->userdata('email')
@@ -334,6 +337,7 @@ class Penilaian extends CI_Controller
 
     public function daftar_pengawas($kegiatan_id)
     {
+        $this->output->cache(1);
         $data['title'] = 'Daftar Pengawas';
         $data['user'] = $this->db
             ->get_where('user', ['email' => $this->session->userdata('email')])
@@ -525,6 +529,7 @@ class Penilaian extends CI_Controller
 
     public function pilihkegiatan()
     {
+        $this->output->cache(1);
         $data['title'] = 'Cetak Hasil Penilaian';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 

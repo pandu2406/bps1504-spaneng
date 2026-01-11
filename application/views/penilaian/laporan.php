@@ -59,7 +59,8 @@
 
         table {
             border-collapse: collapse;
-            width: 80%;
+            width: 95%;
+            /* Increased from 80% */
             margin-left: auto;
             margin-right: auto;
         }
@@ -106,7 +107,7 @@
         </table>
         <br>
 
-        <div style="width:40%; margin:auto;">
+        <div style="width:60%; margin:auto;">
             <canvas id="myChart"></canvas>
         </div>
 
@@ -115,11 +116,11 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>No.</th>
-                    <th>Kriteria</th>
-                    <th>Nilai</th>
-                    <th>Bobot</th>
-                    <th>Nilai Terbobot</th>
+                    <th style="width: 5%;">No.</th>
+                    <th style="width: 50%;">Kriteria</th>
+                    <th style="width: 15%;">Nilai</th>
+                    <th style="width: 15%;">Bobot</th>
+                    <th style="width: 15%;">Nilai Terbobot</th>
                 </tr>
             </thead>
             <tbody>
@@ -235,7 +236,20 @@ if ($nilai_max > 80) {
             labels: [
                 <?php
                 foreach ($penilaian as $data) {
-                    echo json_encode($data['nama']) . ",";
+                    // Wrap text logic: split text if longer than 20 chars
+                    $words = explode(' ', $data['nama']);
+                    $lines = [];
+                    $currentLine = '';
+                    foreach ($words as $word) {
+                        if (strlen($currentLine . $word) > 20) {
+                            $lines[] = trim($currentLine);
+                            $currentLine = $word . ' ';
+                        } else {
+                            $currentLine .= $word . ' ';
+                        }
+                    }
+                    $lines[] = trim($currentLine);
+                    echo json_encode($lines) . ",";
                 }
                 ?>
             ],
@@ -262,6 +276,14 @@ if ($nilai_max > 80) {
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            layout: {
+                padding: {
+                    left: 20,
+                    right: 20,
+                    top: 20,
+                    bottom: 20
+                }
+            },
             plugins: {
                 title: {
                     display: true,
@@ -272,7 +294,10 @@ if ($nilai_max > 80) {
                 },
                 legend: {
                     display: true,
-                    position: 'top'
+                    position: 'bottom', // Changed from top to save vertical space
+                    labels: {
+                        padding: 20
+                    }
                 },
                 tooltip: {
                     enabled: true,
@@ -294,13 +319,17 @@ if ($nilai_max > 80) {
                     max: 100, // tetapkan maksimal
                     ticks: {
                         stepSize: <?= $step ?>,
-                        backdropColor: 'transparent'
+                        backdropColor: 'transparent',
+                        font: {
+                            size: 10 // Reduced tick font size
+                        }
                     },
                     pointLabels: {
                         font: {
-                            size: 14
+                            size: 11 // Reduced point label font size from 14
                         },
-                        color: '#000'
+                        color: '#000',
+                        padding: 10 // Added padding for labels
                     },
                     grid: {
                         color: '#ccc'

@@ -17,6 +17,7 @@ class Ranking extends CI_Controller
 
     public function index()
     {
+        $this->output->cache(1);
         $data['title'] = 'Ranking';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
@@ -31,6 +32,7 @@ class Ranking extends CI_Controller
 
     public function kriteria()
     {
+        $this->output->cache(1);
         $data['title'] = 'Data Kriteria';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
@@ -128,6 +130,7 @@ class Ranking extends CI_Controller
 
     function subkriteria()
     {
+        $this->output->cache(1);
         $data['title'] = 'Data Subkriteria';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
@@ -161,6 +164,7 @@ class Ranking extends CI_Controller
 
     function pilih_kegiatan()
     {
+        $this->output->cache(1);
         $data['title'] = 'Penghitungan';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
@@ -592,6 +596,7 @@ class Ranking extends CI_Controller
 
     function cek_progress($kegiatan_id)
     {
+        $this->output->cache(1);
         $data['title'] = 'Progress Penilaian';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
@@ -631,8 +636,12 @@ class Ranking extends CI_Controller
             $nilai_map[$n->id_mitra] = $n->total;
         }
 
-        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
+        // Load PHPExcel library
+        require(APPPATH . '../assets/phpexcel/Classes/PHPExcel.php');
+        require(APPPATH . '../assets/phpexcel/Classes/PHPExcel/Writer/Excel2007.php');
+
+        $objPHPExcel = new PHPExcel();
+        $sheet = $objPHPExcel->getActiveSheet();
         $sheet->setTitle('Mitra Sobat');
 
         // Header
@@ -642,8 +651,16 @@ class Ranking extends CI_Controller
         $sheet->setCellValue('D1', 'Nilai');
         $sheet->setCellValue('E1', 'Komentar');
 
-        $sheet->getStyle('A1:E1')->getFont()->setBold(true);
-        $sheet->getStyle('A1:E1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        // Styling Header
+        $styleHeader = [
+            'font' => ['bold' => true],
+            'alignment' => ['horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER],
+            'fill' => [
+                'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                'startcolor' => ['rgb' => 'CCCCCC']
+            ]
+        ];
+        $sheet->getStyle('A1:E1')->applyFromArray($styleHeader);
 
         $row = 2;
         foreach ($mitra as $m) {
@@ -670,7 +687,6 @@ class Ranking extends CI_Controller
             $posisi = '';
 
             if ($peran == 'pengawas') {
-                // Default jika posisi_id null
                 if ($posisi_id == 1) {
                     $posisi = 'Petugas Pendataan Lapangan (PML Survei)';
                 } elseif ($posisi_id == 3) {
@@ -692,30 +708,34 @@ class Ranking extends CI_Controller
                 }
             }
 
-            $sheet->setCellValue("A$row", $m->email);
-            $sheet->setCellValue("B$row", $m->nama);
-            $sheet->setCellValue("C$row", $posisi);
-            $sheet->setCellValue("D$row", is_numeric($skor) ? number_format($skor) : '');
-            $sheet->setCellValue("E$row", '');
+            $sheet->setCellValue('A' . $row, $m->email);
+            $sheet->setCellValue('B' . $row, $m->nama);
+            $sheet->setCellValue('C' . $row, $posisi);
+            $sheet->setCellValue('D' . $row, $nilai !== null ? $skor : 'Belum Dinilai');
+            $sheet->setCellValue('E' . $row, ''); // Komentar kosong
 
             $row++;
         }
 
-        // Atur lebar kolom otomatis
-        foreach (range('A', 'E') as $col) {
-            $sheet->getColumnDimension($col)->setAutoSize(true);
+        foreach (range('A', 'E') as $columnID) {
+            $sheet->getColumnDimension($columnID)->setAutoSize(true);
         }
 
-        // Output ke browser
-        $filename = "Rekap_Nilai_Kegiatan_$id_kegiatan.xlsx";
+        $filename = 'Ranking_Mitra_' . date('Ymd_His') . '.xlsx';
+
+        // Bersihkan output buffer sebelum mengirim header
+        ob_end_clean();
+
+        // Redirect output to a client’s web browser (Excel2007)
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header("Content-Disposition: attachment;filename=\"$filename\"");
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
         header('Cache-Control: max-age=0');
 
-        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
-        $writer->save("php://output");
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save('php://output');
         exit;
     }
 
 
 }
+

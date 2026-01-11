@@ -20,6 +20,7 @@ class Rekap extends CI_Controller
 
     public function index()
     {
+        $this->output->cache(1);
         $data['title'] = 'Rekap Mitra';
         $data['user'] = $this->db->get_where('user', [
             'email' => $this->session->userdata('email')
@@ -79,6 +80,7 @@ class Rekap extends CI_Controller
 
     public function bk_pegawai()
     {
+        $this->output->cache(1);
         $data['title'] = 'Beban Kerja Pegawai';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
@@ -130,6 +132,7 @@ class Rekap extends CI_Controller
 
     public function bk_mitra()
     {
+        $this->output->cache(1);
         $data['title'] = 'Beban Kerja Mitra';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
@@ -229,6 +232,7 @@ class Rekap extends CI_Controller
 
     public function riwayat_mitra($id_mitra)
     {
+        $this->output->cache(1);
         $data['title'] = 'Riwayat Tahunan Mitra';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
@@ -307,6 +311,7 @@ class Rekap extends CI_Controller
 
     public function details_mitra($id_mitra, $bulan = 0, $tahun = null, $auto_insert = true)
     {
+        $this->output->cache(1);
         $data['title'] = 'Details Kegiatan Mitra';
         $data['user'] = $this->db->get_where('user', [
             'email' => $this->session->userdata('email')
@@ -812,6 +817,9 @@ class Rekap extends CI_Controller
 
     public function export_excel($bulan = null, $tahun = null)
     {
+        $bulan = (int) $bulan;
+        $tahun = (int) $tahun;
+
         $this->load->model('Rekap_model');
         $data_detail = $this->Rekap_model->getRekapHonor($bulan, $tahun);
         $data_rekap = $this->Rekap_model->getRekapTotalMitra($bulan, $tahun);
@@ -993,58 +1001,8 @@ class Rekap extends CI_Controller
         $this->load->model('Ranking_model');
         $this->load->model('Rekap_model');
 
-        // Ambil semua mitra
-        $all_mitra = $this->db->get('mitra')->result();
-        $mitraList = []; // [id_mitra => nama]
-        foreach ($all_mitra as $m) {
-            $mitraList[$m->id_mitra] = $m->nama;
-        }
-
-        // Ambil kegiatan
-        if ($bulan == 0) {
-            $kegiatanList = $this->db->query("
-            SELECT id, nama 
-            FROM kegiatan 
-            WHERE YEAR(FROM_UNIXTIME(finish)) = ?
-            ORDER BY nama ASC
-        ", [$tahun])->result();
-        } else {
-            $kegiatanList = $this->db->query("
-            SELECT id, nama 
-            FROM kegiatan 
-            WHERE MONTH(FROM_UNIXTIME(finish)) = ? AND YEAR(FROM_UNIXTIME(finish)) = ?
-            ORDER BY nama ASC
-        ", [$bulan, $tahun])->result();
-        }
-
-        // Ambil nilai kegiatan
-        $nilaiPerMitra = []; // [id_mitra_peran][kegiatan_id] = nilai
-        $labelMitra = [];    // [id_mitra_peran] = "Nama (PERAN)"
-
-        foreach ($kegiatanList as $kegiatan) {
-            $totalakhirList = $this->Ranking_model->totalakhir($kegiatan->id);
-            foreach ($totalakhirList as $row) {
-                $id_mitra = $row->id_mitra;
-                $peran = strtoupper($row->peran ?? 'MITRA');
-                $key = $id_mitra . '_' . $peran;
-
-                $labelMitra[$key] = $row->nama . ' (' . $peran . ')';
-                $nilaiPerMitra[$key][$kegiatan->id] = round($row->total, 2);
-            }
-        }
-
-        // // Tambahkan mitra yang tidak ikut kegiatan
-        // foreach ($mitraList as $id_mitra => $nama) {
-        //     foreach (['PPL', 'PML'] as $peran) {
-        //         $key = $id_mitra . '_' . $peran;
-        //         if (!isset($labelMitra[$key])) {
-        //             $labelMitra[$key] = $nama . ' (' . $peran . ')';
-        //             foreach ($kegiatanList as $keg) {
-        //                 $nilaiPerMitra[$key][$keg->id] = 0;
-        //             }
-        //         }
-        //     }
-        // }
+        // Ambil data Rekap Nilai Tahunan (Monthly Averages + Total Activities)
+        $data_nilai = $this->Rekap_model->getRekapNilaiTahunanSAW($tahun);
 
         // === SHEET 1 ===
         require_once FCPATH . 'assets/phpexcel/Classes/PHPExcel.php';
@@ -1059,11 +1017,14 @@ class Rekap extends CI_Controller
         $sheet1 = $objPHPExcel->getActiveSheet();
         $sheet1->setTitle('Rekap Nilai Bulanan');
 
+        // Headers: Nama Mitra, Jan...Des, Jumlah Kegiatan, Rata-rata Akhir
         $header = ['Nama Mitra'];
-        foreach ($kegiatanList as $keg) {
-            $header[] = $keg->nama;
+        $months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        foreach ($months as $m) {
+            $header[] = $m;
         }
-        $header[] = 'Rata-rata';
+        $header[] = 'Jumlah Kegiatan';
+        $header[] = 'Rata-rata Akhir';
 
         $col = 'A';
         foreach ($header as $h) {
@@ -1072,69 +1033,101 @@ class Rekap extends CI_Controller
             $col++;
         }
 
+        // Apply Header Style
+        $headerStyle = [
+            'font' => ['bold' => true],
+            'fill' => [
+                'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                'color' => ['rgb' => 'FFFF00']
+            ]
+        ];
+        $sheet1->getStyle('A1:O1')->applyFromArray($headerStyle); // A to O (1+12+2 columns)
+
         $row = 2;
-        foreach ($labelMitra as $key => $nama_mitra) {
-            $sheet1->setCellValue('A' . $row, $nama_mitra);
+        foreach ($data_nilai as $id_mitra => $data) {
+            // Skip rows with no activity if needed, or show all. User usually prefers all.
+            // But if completely empty, maybe skip? Let's show all for completeness as per requested format
 
-            $colIndex = 1; // Start from column B (index 1)
-            $total = 0;
-            $count = 0;
+            $sheet1->setCellValue('A' . $row, $data->nama_mitra);
 
-            foreach ($kegiatanList as $keg) {
-                $nilai = $nilaiPerMitra[$key][$keg->id] ?? 0;
-                $sheet1->setCellValueByColumnAndRow($colIndex, $row, $nilai);
+            $colIndex = 1; // Start B
+            $total_score_sum = 0;
+            $months_with_score = 0;
+
+            // Monthly Scores
+            for ($m = 1; $m <= 12; $m++) {
+                $score = $data->bulanan[$m];
+                $sheet1->setCellValueByColumnAndRow($colIndex, $row, $score);
                 $colIndex++;
 
-                if ($nilai > 0) {
-                    $total += $nilai;
-                    $count++;
+                if ($score > 0) {
+                    $total_score_sum += $score;
+                    $months_with_score++;
+                    // Note: This average is "Average of Monthly Averages". 
+                    // Alternatively we could recalculate total weighted score / total activities.
+                    // But usually "Average of Averages" per month is acceptable for this view unless specified.
+                    // Actually, let's use the average of the months that have data.
                 }
             }
 
-            $rata2 = $count > 0 ? round($total / $count, 2) : 0;
-            $sheet1->setCellValueByColumnAndRow($colIndex, $row, $rata2);
+            // Jumlah Kegiatan
+            $sheet1->setCellValueByColumnAndRow($colIndex, $row, $data->total_kegiatan);
+            $colIndex++;
+
+            // Rata-rata Akhir (Average of months present)
+            $rata_akhir = $months_with_score > 0 ? round($total_score_sum / $months_with_score, 2) : 0;
+            $sheet1->setCellValueByColumnAndRow($colIndex, $row, $rata_akhir);
+
             $row++;
         }
 
-        // === SHEET 2 ===
+        // === SHEET 2: Detail Kegiatan & Peringkat ===
         $objPHPExcel->createSheet();
         $objPHPExcel->setActiveSheetIndex(1);
         $sheet2 = $objPHPExcel->getActiveSheet();
-        $sheet2->setTitle('Rekap Honor Bulanan');
+        $sheet2->setTitle('Detail Kegiatan');
 
-        $header2 = ['Nama Mitra'];
-        foreach ($kegiatanList as $keg) {
-            $header2[] = $keg->nama;
-        }
-        $header2[] = 'Total Honor';
-
+        $headers2 = ['No', 'Nama Mitra', 'Nama Kegiatan', 'Bulan', 'Tahun', 'Nilai', 'Peringkat'];
         $col = 'A';
-        foreach ($header2 as $h) {
+        foreach ($headers2 as $h) {
             $sheet2->setCellValue($col . '1', $h);
             $sheet2->getColumnDimension($col)->setAutoSize(true);
             $col++;
         }
+        $sheet2->getStyle('A1:G1')->applyFromArray($headerStyle);
+
+        // Fetch Kegiatan based on filter
+        if ($bulan == 0 && $tahun == 0) {
+            $kegiatanQuery = "SELECT id, nama, finish FROM kegiatan ORDER BY finish DESC";
+            $kegiatanList = $this->db->query($kegiatanQuery)->result();
+        } elseif ($bulan == 0) {
+            $kegiatanList = $this->db->query("SELECT id, nama, finish FROM kegiatan WHERE YEAR(FROM_UNIXTIME(finish)) = ? ORDER BY finish DESC", [$tahun])->result();
+        } else {
+            $kegiatanList = $this->db->query("SELECT id, nama, finish FROM kegiatan WHERE MONTH(FROM_UNIXTIME(finish)) = ? AND YEAR(FROM_UNIXTIME(finish)) = ? ORDER BY finish DESC", [$bulan, $tahun])->result();
+        }
 
         $row = 2;
-        foreach ($labelMitra as $key => $nama_mitra) {
-            $sheet2->setCellValue('A' . $row, $nama_mitra);
+        $no = 1;
 
-            $colIndex = 1; // Start from column B
-            $totalHonor = 0;
+        foreach ($kegiatanList as $keg) {
+            // Get Ranking for this activity
+            // totalakhir returns sorted list by total score descending
+            $rankList = $this->Ranking_model->totalakhir($keg->id);
 
-            foreach ($kegiatanList as $keg) {
-                // Assuming logic for honor is similar or needs clarification. 
-                // Since original code for sheet 2 wasn't fully visible, I'll assume 0 for now or copy logic if I had it.
-                // However, user just wants error gone. I'll stick to basic.
-                // Looking at previous view_file, Sheet 2 logic was truncated.
-                // I will just implement basic structure to prevent error.
-                $val = 0; // Placeholder as original logic was cut off
-                $sheet2->setCellValueByColumnAndRow($colIndex, $row, $val);
-                $colIndex++;
-                $totalHonor += $val;
+            $rank = 1;
+            $bulan_txt = $months[date('n', $keg->finish) - 1] ?? '-'; // 0-indexed array
+            $tahun_txt = date('Y', $keg->finish);
+
+            foreach ($rankList as $r) {
+                $sheet2->setCellValue('A' . $row, $no++);
+                $sheet2->setCellValue('B' . $row, $r->nama); // Nama Mitra
+                $sheet2->setCellValue('C' . $row, $keg->nama); // Nama Kegiatan
+                $sheet2->setCellValue('D' . $row, $bulan_txt);
+                $sheet2->setCellValue('E' . $row, $tahun_txt);
+                $sheet2->setCellValue('F' . $row, round($r->total, 2));
+                $sheet2->setCellValue('G' . $row, $rank++); // Peringkat
+                $row++;
             }
-            $sheet2->setCellValueByColumnAndRow($colIndex, $row, $totalHonor);
-            $row++;
         }
 
         $filename = 'rekap_nilai_' . $bulan . '_' . $tahun . '.xlsx';

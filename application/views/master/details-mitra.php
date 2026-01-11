@@ -26,83 +26,118 @@
                         class="rounded-circle shadow-lg mb-2 bg-white p-1" alt="Profile" width="120" height="120"
                         style="object-fit: cover; border: 4px solid rgba(255,255,255,0.3);">
                     <h4 class="font-weight-bold text-white mb-1"><?= $mitra['nama']; ?></h4>
-                    <span class="badge badge-light text-primary badge-pill px-3 shadow-sm">
-                        <i class="fas fa-id-card mr-1"></i> <?= $mitra['nik'] ?>
-                    </span>
+                    <div class="d-inline-flex align-items-center justify-content-center bg-white-10 rounded-pill px-3 py-1 text-white border border-white-20 shadow-sm mt-2">
+                         <i class="fas fa-id-card mr-2 text-white-50"></i>
+                         <span class="font-weight-bold letter-spacing-1"><?= $mitra['nik'] ?></span>
+                    </div>
                 </div>
-                <div class="card-body p-4">
-                    <div class="text-center mb-4">
-                         <h6 class="text-xs font-weight-bold text-uppercase text-muted mb-1">Posisi Saat Ini</h6>
-                         <span class="badge badge-info px-3 py-2 rounded-pill shadow-sm">
-                            <?= $mitra['posisi'] ?? 'Mitra Pendataan'; ?>
+                <div class="card-body p-0">
+                    <!-- Status Section -->
+                    <div class="text-center py-4 border-bottom bg-light bg-opacity-50">
+                        <small class="text-uppercase text-muted font-weight-bold letter-spacing-2 d-block mb-2">Posisi Saat Ini</small>
+                        <span class="badge badge-info px-4 py-2 rounded-pill shadow-sm text-md mb-2">
+                             <?= $mitra['posisi'] ?? 'Mitra Pendataan'; ?>
                         </span>
-                        <div class="mt-2">
+                        <div class="mt-1">
                              <?php if ($mitra['is_active'] == '1'): ?>
-                                <span class="badge badge-success badge-pill"><i class="fas fa-circle text-xs mr-1"></i> Aktif</span>
+                                <span class="badge badge-soft-success text-success badge-pill px-3"><i class="fas fa-check-circle mr-1"></i> Aktif</span>
                             <?php else: ?>
-                                <span class="badge badge-danger badge-pill"><i class="fas fa-circle text-xs mr-1"></i> Non-Aktif</span>
+                                <span class="badge badge-soft-danger text-danger badge-pill px-3"><i class="fas fa-times-circle mr-1"></i> Non-Aktif</span>
                             <?php endif; ?>
                         </div>
                     </div>
 
-                    <div class="list-group list-group-flush small">
-                        <div class="list-group-item d-flex justify-content-between align-items-center px-0 border-0">
-                            <span class="text-muted"><i class="fas fa-venus-mars mr-2 text-primary" style="width:20px"></i>Jenis Kelamin</span>
-                            <span class="font-weight-bold text-dark">
-                                <?= ($mitra['jk'] == '1' || strtoupper($mitra['jk']) == 'L') ? 'Laki-laki' : 'Perempuan'; ?>
-                            </span>
+                    <!-- Info List -->
+                    <div class="p-4">
+                        <div class="row mb-3 align-items-center">
+                            <div class="col-5">
+                                <span class="text-xs font-weight-bold text-uppercase text-secondary letter-spacing-1"><i class="fas fa-venus-mars mr-2 text-primary opacity-50"></i>Gender</span>
+                            </div>
+                            <div class="col-7 text-right">
+                                <span class="font-weight-bold">
+                                    <?= ($mitra['jk'] == '1' || strtoupper($mitra['jk']) == 'L') ? 'Laki-laki' : 'Perempuan'; ?>
+                                </span>
+                            </div>
                         </div>
-                        <div class="list-group-item d-flex justify-content-between align-items-center px-0 border-0">
-                            <span class="text-muted"><i class="fas fa-id-badge mr-2 text-primary" style="width:20px"></i>Sobat ID</span>
-                            <span class="font-weight-bold text-dark"><?= $mitra['sobat_id'] ?: '-'; ?></span>
+                        <hr class="my-2 border-light">
+                        <div class="row mb-3 align-items-center">
+                            <div class="col-5">
+                                <span class="text-xs font-weight-bold text-uppercase text-secondary letter-spacing-1"><i class="fas fa-id-badge mr-2 text-primary opacity-50"></i>Sobat ID</span>
+                            </div>
+                            <div class="col-7 text-right">
+                                <span class="font-weight-bold font-monospace"><?= $mitra['sobat_id'] ?: '-'; ?></span>
+                            </div>
                         </div>
-                        <div class="list-group-item d-flex justify-content-between align-items-center px-0 border-top mt-2 pt-3">
-                            <span class="text-muted"><i class="fas fa-map-marker-alt mr-2 text-primary" style="width:20px"></i>Wilayah</span>
-                            <div class="text-right">
-                                <span class="d-block font-weight-bold"><?= $mitra['nama_kecamatan'] ?: $mitra['kecamatan'] ?: '-'; ?></span>
-                                <small class="text-muted"><?= $mitra['nama_desa'] ?: $mitra['desa'] ?: '-'; ?></small>
+                        <hr class="my-2 border-light">
+                        <div class="row align-items-start">
+                            <div class="col-5 pt-1">
+                                <span class="text-xs font-weight-bold text-uppercase text-secondary letter-spacing-1"><i class="fas fa-map-marker-alt mr-2 text-primary opacity-50"></i>Wilayah</span>
+                            </div>
+                            <div class="col-7 text-right">
+                                <div class="font-weight-bold lead-sm"><?= $mitra['nama_kecamatan'] ?: $mitra['kecamatan'] ?: '-'; ?></div>
+                                <div class="text-xs text-muted mt-1 bg-light rounded px-2 py-1 d-inline-block border">
+                                    Desa <?= $mitra['nama_desa'] ?: $mitra['desa'] ?: '-'; ?>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Contact Details -->
-                    <div class="bg-light rounded p-3 mt-3">
-                         <div class="mb-2 d-flex align-items-center">
-                            <i class="fas fa-envelope text-gray-500 mr-3"></i>
-                            <div class="text-truncate"><?= $mitra['email'] ?: '-'; ?></div>
-                        </div>
-                        <div class="d-flex align-items-center">
-                            <i class="fab fa-whatsapp text-success mr-3 font-weight-bold" style="font-size:1.1em"></i>
-                            <?php if ($mitra['no_hp']): ?>
-                                <a href="https://wa.me/62<?= ltrim($mitra['no_hp'], '0') ?>" target="_blank" class="text-dark font-weight-bold text-decoration-none hover-primary">
-                                    <?= $mitra['no_hp']; ?> <i class="fas fa-external-link-alt ml-1 text-xs text-muted"></i>
-                                </a>
-                            <?php else: ?>
-                                <span class="text-muted">-</span>
-                            <?php endif; ?>
+                    <!-- Contact Details styled as a mini-card -->
+                    <div class="mx-4 mb-4">
+                        <div class="bg-gray-900 rounded-lg p-3 shadow-inner text-white position-relative overflow-hidden">
+                            <div class="position-absolute" style="right: -10px; bottom: -10px; opacity: 0.1; transform: rotate(-15deg);">
+                                <i class="fas fa-address-book fa-4x text-white"></i>
+                            </div>
+                             <div class="mb-3 d-flex align-items-center position-relative z-index-1">
+                                <div class="bg-white-10 p-2 rounded-circle mr-3">
+                                    <i class="fas fa-envelope text-white-75"></i>
+                                </div>
+                                <div class="text-truncate" style="max-width: 85%;">
+                                    <small class="d-block text-white-50 text-xs text-uppercase">Email</small>
+                                    <span class="font-weight-medium text-white"><?= $mitra['email'] ?: '-'; ?></span>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center position-relative z-index-1">
+                                <div class="bg-white-10 p-2 rounded-circle mr-3">
+                                    <i class="fab fa-whatsapp text-white-75"></i>
+                                </div>
+                                <div>
+                                    <small class="d-block text-white-50 text-xs text-uppercase">WhatsApp</small>
+                                    <?php if ($mitra['no_hp']): ?>
+                                        <a href="https://wa.me/62<?= ltrim($mitra['no_hp'], '0') ?>" target="_blank" class="text-white font-weight-bold text-decoration-none hover-underline">
+                                            <?= $mitra['no_hp']; ?> <i class="fas fa-external-link-alt ml-1 text-xs opacity-50"></i>
+                                        </a>
+                                    <?php else: ?>
+                                        <span class="text-white-50">-</span>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                 </div>
-                 <div class="card-footer bg-white text-center py-3">
-                    <button class="btn btn-outline-primary btn-sm rounded-pill shadow-sm" type="button" data-toggle="collapse" data-target="#collapseActions" aria-expanded="false" aria-controls="collapseActions">
-                        <i class="fas fa-cog mr-1"></i> Pengaturan Mitra
+                 <div class="card-footer bg-light text-center py-4 border-top-0">
+                    <button class="btn btn-outline-primary shadow-sm rounded-pill px-4" type="button" data-toggle="collapse" data-target="#collapseActions" aria-expanded="false" aria-controls="collapseActions">
+                        <span class="d-flex align-items-center">
+                            <i class="fas fa-cog mr-2"></i> Pengaturan Mitra
+                            <i class="fas fa-chevron-down ml-2 text-xs"></i>
+                        </span>
                     </button>
-                    <div class="collapse mt-3" id="collapseActions">
-                        <div class="d-flex flex-column gap-2">
-                             <a href="<?= base_url('kegiatan/details_mitra_kegiatan/') . $mitra['id_mitra']; ?>" class="btn btn-primary btn-sm btn-block mb-2">
-                                <i class="fas fa-chart-line mr-1"></i> Detail Kegiatan
+                    <div class="collapse mt-3 animate-slide-down" id="collapseActions">
+                        <div class="card card-body shadow-sm border-0 p-2 bg-white rounded-lg">
+                             <a href="<?= base_url('kegiatan/details_mitra_kegiatan/') . $mitra['id_mitra']; ?>" class="btn btn-light text-primary btn-sm btn-block text-left py-2 px-3 rounded hover-bg-gray-100 transition-all mb-1">
+                                <i class="fas fa-chart-line mr-3 width-20 text-center"></i> Detail Kegiatan
                             </a>
-                            <a href="<?= base_url('master/editmitra/') . $mitra['id_mitra']; ?>" class="btn btn-success btn-sm btn-block mb-2">
-                                <i class="fas fa-edit mr-1"></i> Edit Profil
+                            <a href="<?= base_url('master/editmitra/') . $mitra['id_mitra']; ?>" class="btn btn-light text-success btn-sm btn-block text-left py-2 px-3 rounded hover-bg-gray-100 transition-all mb-1">
+                                <i class="fas fa-edit mr-3 width-20 text-center"></i> Edit Profil
                             </a>
                              <?php if ($mitra['is_active'] == '1'): ?>
-                                <a href="<?= base_url('master/deactivated/') . $mitra['id_mitra']; ?>" class="btn btn-warning btn-sm btn-block" onclick="return confirm('Nonaktifkan mitra ini?')">
-                                    <i class="fas fa-ban mr-1"></i> Nonaktifkan
+                                <a href="<?= base_url('master/deactivated/') . $mitra['id_mitra']; ?>" class="btn btn-light text-warning btn-sm btn-block text-left py-2 px-3 rounded hover-bg-gray-100 transition-all" onclick="return confirm('Nonaktifkan mitra ini?')">
+                                    <i class="fas fa-ban mr-3 width-20 text-center"></i> Nonaktifkan
                                 </a>
                             <?php else: ?>
-                                <a href="<?= base_url('master/activated/') . $mitra['id_mitra']; ?>" class="btn btn-info btn-sm btn-block" onclick="return confirm('Aktifkan kembali mitra ini?')">
-                                    <i class="fas fa-check mr-1"></i> Aktifkan
+                                <a href="<?= base_url('master/activated/') . $mitra['id_mitra']; ?>" class="btn btn-light text-info btn-sm btn-block text-left py-2 px-3 rounded hover-bg-gray-100 transition-all" onclick="return confirm('Aktifkan kembali mitra ini?')">
+                                    <i class="fas fa-check mr-3 width-20 text-center"></i> Aktifkan
                                 </a>
                             <?php endif; ?>
                         </div>

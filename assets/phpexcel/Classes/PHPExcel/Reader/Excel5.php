@@ -68,94 +68,94 @@ if (!defined('PHPEXCEL_ROOT')) {
 class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExcel_Reader_IReader
 {
     // ParseXL definitions
-    const XLS_BIFF8                     = 0x0600;
-    const XLS_BIFF7                     = 0x0500;
-    const XLS_WorkbookGlobals           = 0x0005;
-    const XLS_Worksheet                 = 0x0010;
+    const XLS_BIFF8 = 0x0600;
+    const XLS_BIFF7 = 0x0500;
+    const XLS_WorkbookGlobals = 0x0005;
+    const XLS_Worksheet = 0x0010;
 
     // record identifiers
-    const XLS_TYPE_FORMULA              = 0x0006;
-    const XLS_TYPE_EOF                  = 0x000a;
-    const XLS_TYPE_PROTECT              = 0x0012;
-    const XLS_TYPE_OBJECTPROTECT        = 0x0063;
-    const XLS_TYPE_SCENPROTECT          = 0x00dd;
-    const XLS_TYPE_PASSWORD             = 0x0013;
-    const XLS_TYPE_HEADER               = 0x0014;
-    const XLS_TYPE_FOOTER               = 0x0015;
-    const XLS_TYPE_EXTERNSHEET          = 0x0017;
-    const XLS_TYPE_DEFINEDNAME          = 0x0018;
-    const XLS_TYPE_VERTICALPAGEBREAKS   = 0x001a;
+    const XLS_TYPE_FORMULA = 0x0006;
+    const XLS_TYPE_EOF = 0x000a;
+    const XLS_TYPE_PROTECT = 0x0012;
+    const XLS_TYPE_OBJECTPROTECT = 0x0063;
+    const XLS_TYPE_SCENPROTECT = 0x00dd;
+    const XLS_TYPE_PASSWORD = 0x0013;
+    const XLS_TYPE_HEADER = 0x0014;
+    const XLS_TYPE_FOOTER = 0x0015;
+    const XLS_TYPE_EXTERNSHEET = 0x0017;
+    const XLS_TYPE_DEFINEDNAME = 0x0018;
+    const XLS_TYPE_VERTICALPAGEBREAKS = 0x001a;
     const XLS_TYPE_HORIZONTALPAGEBREAKS = 0x001b;
-    const XLS_TYPE_NOTE                 = 0x001c;
-    const XLS_TYPE_SELECTION            = 0x001d;
-    const XLS_TYPE_DATEMODE             = 0x0022;
-    const XLS_TYPE_EXTERNNAME           = 0x0023;
-    const XLS_TYPE_LEFTMARGIN           = 0x0026;
-    const XLS_TYPE_RIGHTMARGIN          = 0x0027;
-    const XLS_TYPE_TOPMARGIN            = 0x0028;
-    const XLS_TYPE_BOTTOMMARGIN         = 0x0029;
-    const XLS_TYPE_PRINTGRIDLINES       = 0x002b;
-    const XLS_TYPE_FILEPASS             = 0x002f;
-    const XLS_TYPE_FONT                 = 0x0031;
-    const XLS_TYPE_CONTINUE             = 0x003c;
-    const XLS_TYPE_PANE                 = 0x0041;
-    const XLS_TYPE_CODEPAGE             = 0x0042;
-    const XLS_TYPE_DEFCOLWIDTH          = 0x0055;
-    const XLS_TYPE_OBJ                  = 0x005d;
-    const XLS_TYPE_COLINFO              = 0x007d;
-    const XLS_TYPE_IMDATA               = 0x007f;
-    const XLS_TYPE_SHEETPR              = 0x0081;
-    const XLS_TYPE_HCENTER              = 0x0083;
-    const XLS_TYPE_VCENTER              = 0x0084;
-    const XLS_TYPE_SHEET                = 0x0085;
-    const XLS_TYPE_PALETTE              = 0x0092;
-    const XLS_TYPE_SCL                  = 0x00a0;
-    const XLS_TYPE_PAGESETUP            = 0x00a1;
-    const XLS_TYPE_MULRK                = 0x00bd;
-    const XLS_TYPE_MULBLANK             = 0x00be;
-    const XLS_TYPE_DBCELL               = 0x00d7;
-    const XLS_TYPE_XF                   = 0x00e0;
-    const XLS_TYPE_MERGEDCELLS          = 0x00e5;
-    const XLS_TYPE_MSODRAWINGGROUP      = 0x00eb;
-    const XLS_TYPE_MSODRAWING           = 0x00ec;
-    const XLS_TYPE_SST                  = 0x00fc;
-    const XLS_TYPE_LABELSST             = 0x00fd;
-    const XLS_TYPE_EXTSST               = 0x00ff;
-    const XLS_TYPE_EXTERNALBOOK         = 0x01ae;
-    const XLS_TYPE_DATAVALIDATIONS      = 0x01b2;
-    const XLS_TYPE_TXO                  = 0x01b6;
-    const XLS_TYPE_HYPERLINK            = 0x01b8;
-    const XLS_TYPE_DATAVALIDATION       = 0x01be;
-    const XLS_TYPE_DIMENSION            = 0x0200;
-    const XLS_TYPE_BLANK                = 0x0201;
-    const XLS_TYPE_NUMBER               = 0x0203;
-    const XLS_TYPE_LABEL                = 0x0204;
-    const XLS_TYPE_BOOLERR              = 0x0205;
-    const XLS_TYPE_STRING               = 0x0207;
-    const XLS_TYPE_ROW                  = 0x0208;
-    const XLS_TYPE_INDEX                = 0x020b;
-    const XLS_TYPE_ARRAY                = 0x0221;
-    const XLS_TYPE_DEFAULTROWHEIGHT     = 0x0225;
-    const XLS_TYPE_WINDOW2              = 0x023e;
-    const XLS_TYPE_RK                   = 0x027e;
-    const XLS_TYPE_STYLE                = 0x0293;
-    const XLS_TYPE_FORMAT               = 0x041e;
-    const XLS_TYPE_SHAREDFMLA           = 0x04bc;
-    const XLS_TYPE_BOF                  = 0x0809;
-    const XLS_TYPE_SHEETPROTECTION      = 0x0867;
-    const XLS_TYPE_RANGEPROTECTION      = 0x0868;
-    const XLS_TYPE_SHEETLAYOUT          = 0x0862;
-    const XLS_TYPE_XFEXT                = 0x087d;
-    const XLS_TYPE_PAGELAYOUTVIEW       = 0x088b;
-    const XLS_TYPE_UNKNOWN              = 0xffff;
+    const XLS_TYPE_NOTE = 0x001c;
+    const XLS_TYPE_SELECTION = 0x001d;
+    const XLS_TYPE_DATEMODE = 0x0022;
+    const XLS_TYPE_EXTERNNAME = 0x0023;
+    const XLS_TYPE_LEFTMARGIN = 0x0026;
+    const XLS_TYPE_RIGHTMARGIN = 0x0027;
+    const XLS_TYPE_TOPMARGIN = 0x0028;
+    const XLS_TYPE_BOTTOMMARGIN = 0x0029;
+    const XLS_TYPE_PRINTGRIDLINES = 0x002b;
+    const XLS_TYPE_FILEPASS = 0x002f;
+    const XLS_TYPE_FONT = 0x0031;
+    const XLS_TYPE_CONTINUE = 0x003c;
+    const XLS_TYPE_PANE = 0x0041;
+    const XLS_TYPE_CODEPAGE = 0x0042;
+    const XLS_TYPE_DEFCOLWIDTH = 0x0055;
+    const XLS_TYPE_OBJ = 0x005d;
+    const XLS_TYPE_COLINFO = 0x007d;
+    const XLS_TYPE_IMDATA = 0x007f;
+    const XLS_TYPE_SHEETPR = 0x0081;
+    const XLS_TYPE_HCENTER = 0x0083;
+    const XLS_TYPE_VCENTER = 0x0084;
+    const XLS_TYPE_SHEET = 0x0085;
+    const XLS_TYPE_PALETTE = 0x0092;
+    const XLS_TYPE_SCL = 0x00a0;
+    const XLS_TYPE_PAGESETUP = 0x00a1;
+    const XLS_TYPE_MULRK = 0x00bd;
+    const XLS_TYPE_MULBLANK = 0x00be;
+    const XLS_TYPE_DBCELL = 0x00d7;
+    const XLS_TYPE_XF = 0x00e0;
+    const XLS_TYPE_MERGEDCELLS = 0x00e5;
+    const XLS_TYPE_MSODRAWINGGROUP = 0x00eb;
+    const XLS_TYPE_MSODRAWING = 0x00ec;
+    const XLS_TYPE_SST = 0x00fc;
+    const XLS_TYPE_LABELSST = 0x00fd;
+    const XLS_TYPE_EXTSST = 0x00ff;
+    const XLS_TYPE_EXTERNALBOOK = 0x01ae;
+    const XLS_TYPE_DATAVALIDATIONS = 0x01b2;
+    const XLS_TYPE_TXO = 0x01b6;
+    const XLS_TYPE_HYPERLINK = 0x01b8;
+    const XLS_TYPE_DATAVALIDATION = 0x01be;
+    const XLS_TYPE_DIMENSION = 0x0200;
+    const XLS_TYPE_BLANK = 0x0201;
+    const XLS_TYPE_NUMBER = 0x0203;
+    const XLS_TYPE_LABEL = 0x0204;
+    const XLS_TYPE_BOOLERR = 0x0205;
+    const XLS_TYPE_STRING = 0x0207;
+    const XLS_TYPE_ROW = 0x0208;
+    const XLS_TYPE_INDEX = 0x020b;
+    const XLS_TYPE_ARRAY = 0x0221;
+    const XLS_TYPE_DEFAULTROWHEIGHT = 0x0225;
+    const XLS_TYPE_WINDOW2 = 0x023e;
+    const XLS_TYPE_RK = 0x027e;
+    const XLS_TYPE_STYLE = 0x0293;
+    const XLS_TYPE_FORMAT = 0x041e;
+    const XLS_TYPE_SHAREDFMLA = 0x04bc;
+    const XLS_TYPE_BOF = 0x0809;
+    const XLS_TYPE_SHEETPROTECTION = 0x0867;
+    const XLS_TYPE_RANGEPROTECTION = 0x0868;
+    const XLS_TYPE_SHEETLAYOUT = 0x0862;
+    const XLS_TYPE_XFEXT = 0x087d;
+    const XLS_TYPE_PAGELAYOUTVIEW = 0x088b;
+    const XLS_TYPE_UNKNOWN = 0xffff;
 
     // Encryption type
-    const MS_BIFF_CRYPTO_NONE           = 0;
-    const MS_BIFF_CRYPTO_XOR            = 1;
-    const MS_BIFF_CRYPTO_RC4            = 2;
-    
+    const MS_BIFF_CRYPTO_NONE = 0;
+    const MS_BIFF_CRYPTO_XOR = 1;
+    const MS_BIFF_CRYPTO_RC4 = 2;
+
     // Size of stream blocks when using RC4 encryption
-    const REKEY_BLOCK                   = 0x400;
+    const REKEY_BLOCK = 0x400;
 
     /**
      * Summary Information stream data.
@@ -382,7 +382,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
      * @var int
      */
     private $encryption = 0;
-    
+
     /**
      * The position in the stream after which contents are encrypted
      *
@@ -466,8 +466,8 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
         // total byte size of Excel data (workbook global substream + sheet substreams)
         $this->dataSize = strlen($this->data);
 
-        $this->pos        = 0;
-        $this->sheets    = array();
+        $this->pos = 0;
+        $this->sheets = array();
 
         // Parse Workbook Global Substream
         while ($this->pos < $this->dataSize) {
@@ -524,7 +524,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
         $this->dataSize = strlen($this->data);
 
         // initialize
-        $this->pos    = 0;
+        $this->pos = 0;
         $this->sheets = array();
 
         // Parse Workbook Global Substream
@@ -639,19 +639,19 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
         $this->dataSize = strlen($this->data);
 
         // initialize
-        $this->pos                 = 0;
-        $this->codepage            = 'CP1252';
-        $this->formats             = array();
-        $this->objFonts            = array();
-        $this->palette             = array();
-        $this->sheets              = array();
-        $this->externalBooks       = array();
-        $this->ref                 = array();
-        $this->definedname         = array();
-        $this->sst                 = array();
-        $this->drawingGroupData    = '';
-        $this->xfIndex             = '';
-        $this->mapCellXfIndex      = array();
+        $this->pos = 0;
+        $this->codepage = 'CP1252';
+        $this->formats = array();
+        $this->objFonts = array();
+        $this->palette = array();
+        $this->sheets = array();
+        $this->externalBooks = array();
+        $this->ref = array();
+        $this->definedname = array();
+        $this->sst = array();
+        $this->drawingGroupData = '';
+        $this->xfIndex = '';
+        $this->mapCellXfIndex = array();
         $this->mapCellStyleXfIndex = array();
 
         // Parse Workbook Global Substream
@@ -743,10 +743,10 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
                 }
 
                 // border colors
-                $top      = $objStyle->getBorders()->getTop();
-                $right    = $objStyle->getBorders()->getRight();
-                $bottom   = $objStyle->getBorders()->getBottom();
-                $left     = $objStyle->getBorders()->getLeft();
+                $top = $objStyle->getBorders()->getTop();
+                $right = $objStyle->getBorders()->getRight();
+                $bottom = $objStyle->getBorders()->getBottom();
+                $left = $objStyle->getBorders()->getLeft();
                 $diagonal = $objStyle->getBorders()->getDiagonal();
 
                 if (isset($top->colorIndex)) {
@@ -1011,7 +1011,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 
             // treat OBJ records
             foreach ($this->objs as $n => $obj) {
-//                echo '<hr /><b>Object</b> reference is ', $n,'<br />';
+                //                echo '<hr /><b>Object</b> reference is ', $n,'<br />';
 //                var_dump($obj);
 //                echo '<br />';
 
@@ -1055,7 +1055,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
                             }
                             break;
                         case 0x08:
-//                            echo 'Picture Object<br />';
+                            //                            echo 'Picture Object<br />';
                             // picture
                             // get index to BSE entry (1-based)
                             $BSEindex = $spContainer->getOPT(0x0104);
@@ -1119,7 +1119,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
                             $noteDetails['objTextData']['text'] = '';
                         }
                     }
-//                    echo '<b>Cell annotation ', $note,'</b><br />';
+                    //                    echo '<b>Cell annotation ', $note,'</b><br />';
 //                    var_dump($noteDetails);
 //                    echo '<br />';
                     $cellAddress = str_replace('$', '', $noteDetails['cellRef']);
@@ -1200,8 +1200,10 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
                 $explodes = explode('!', $definedName['formula']);
 
                 if (count($explodes) == 2) {
-                    if (($docSheet = $this->phpExcel->getSheetByName($explodes[0])) ||
-                        ($docSheet = $this->phpExcel->getSheetByName(trim($explodes[0], "'")))) {
+                    if (
+                        ($docSheet = $this->phpExcel->getSheetByName($explodes[0])) ||
+                        ($docSheet = $this->phpExcel->getSheetByName(trim($explodes[0], "'")))
+                    ) {
                         $extractedRange = $explodes[1];
                         $extractedRange = str_replace('$', '', $extractedRange);
 
@@ -1209,7 +1211,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 
                         $scope = ($definedName['scope'] == 0) ? null : $this->phpExcel->getSheetByName($this->sheets[$definedName['scope'] - 1]['name']);
 
-                        $this->phpExcel->addNamedRange(new PHPExcel_NamedRange((string)$definedName['name'], $docSheet, $extractedRange, $localOnly, $scope));
+                        $this->phpExcel->addNamedRange(new PHPExcel_NamedRange((string) $definedName['name'], $docSheet, $extractedRange, $localOnly, $scope));
                     }
                 } else {
                     //    Named Value
@@ -1221,7 +1223,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 
         return $this->phpExcel;
     }
-    
+
     /**
      * Read record data from stream, decrypting as required
      *
@@ -1234,12 +1236,12 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
     private function readRecordData($data, $pos, $len)
     {
         $data = substr($data, $pos, $len);
-        
+
         // File not encrypted, or record before encryption start point
         if ($this->encryption == self::MS_BIFF_CRYPTO_NONE || $pos < $this->encryptionStartPos) {
             return $data;
         }
-    
+
         $recordData = '';
         if ($this->encryption == self::MS_BIFF_CRYPTO_RC4) {
             $oldBlock = floor($this->rc4Pos / self::REKEY_BLOCK);
@@ -1325,7 +1327,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
         $secLength = self::getInt4d($this->summaryInformation, $secOffset);
 
         // offset: $secOffset+4; size: 4; property count
-        $countProperties = self::getInt4d($this->summaryInformation, $secOffset+4);
+        $countProperties = self::getInt4d($this->summaryInformation, $secOffset + 4);
 
         // initialize code page (used to resolve string values)
         $codePage = 'CP1252';
@@ -1334,11 +1336,11 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
         // loop through property decarations and properties
         for ($i = 0; $i < $countProperties; ++$i) {
             // offset: ($secOffset+8) + (8 * $i); size: 4; property ID
-            $id = self::getInt4d($this->summaryInformation, ($secOffset+8) + (8 * $i));
+            $id = self::getInt4d($this->summaryInformation, ($secOffset + 8) + (8 * $i));
 
             // Use value of property id as appropriate
             // offset: ($secOffset+12) + (8 * $i); size: 4; offset from beginning of section (48)
-            $offset = self::getInt4d($this->summaryInformation, ($secOffset+12) + (8 * $i));
+            $offset = self::getInt4d($this->summaryInformation, ($secOffset + 12) + (8 * $i));
 
             $type = self::getInt4d($this->summaryInformation, $secOffset + $offset);
 
@@ -1450,21 +1452,21 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
         //    offset: 8;    size: 16
         //    offset: 24;    size: 4;    section count
         $secCount = self::getInt4d($this->documentSummaryInformation, 24);
-//        echo '$secCount = ', $secCount,'<br />';
+        //        echo '$secCount = ', $secCount,'<br />';
 
         // offset: 28;    size: 16;    first section's class id: 02 d5 cd d5 9c 2e 1b 10 93 97 08 00 2b 2c f9 ae
         // offset: 44;    size: 4;    first section offset
         $secOffset = self::getInt4d($this->documentSummaryInformation, 44);
-//        echo '$secOffset = ', $secOffset,'<br />';
+        //        echo '$secOffset = ', $secOffset,'<br />';
 
         //    section header
         //    offset: $secOffset;    size: 4;    section length
         $secLength = self::getInt4d($this->documentSummaryInformation, $secOffset);
-//        echo '$secLength = ', $secLength,'<br />';
+        //        echo '$secLength = ', $secLength,'<br />';
 
         //    offset: $secOffset+4;    size: 4;    property count
-        $countProperties = self::getInt4d($this->documentSummaryInformation, $secOffset+4);
-//        echo '$countProperties = ', $countProperties,'<br />';
+        $countProperties = self::getInt4d($this->documentSummaryInformation, $secOffset + 4);
+        //        echo '$countProperties = ', $countProperties,'<br />';
 
         // initialize code page (used to resolve string values)
         $codePage = 'CP1252';
@@ -1472,17 +1474,17 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
         //    offset: ($secOffset+8);    size: var
         //    loop through property decarations and properties
         for ($i = 0; $i < $countProperties; ++$i) {
-//            echo 'Property ', $i,'<br />';
+            //            echo 'Property ', $i,'<br />';
             //    offset: ($secOffset+8) + (8 * $i);    size: 4;    property ID
-            $id = self::getInt4d($this->documentSummaryInformation, ($secOffset+8) + (8 * $i));
-//            echo 'ID is ', $id,'<br />';
+            $id = self::getInt4d($this->documentSummaryInformation, ($secOffset + 8) + (8 * $i));
+            //            echo 'ID is ', $id,'<br />';
 
             // Use value of property id as appropriate
             // offset: 60 + 8 * $i;    size: 4;    offset from beginning of section (48)
-            $offset = self::getInt4d($this->documentSummaryInformation, ($secOffset+12) + (8 * $i));
+            $offset = self::getInt4d($this->documentSummaryInformation, ($secOffset + 12) + (8 * $i));
 
             $type = self::getInt4d($this->documentSummaryInformation, $secOffset + $offset);
-//            echo 'Type is ', $type,', ';
+            //            echo 'Type is ', $type,', ';
 
             // initialize property value
             $value = null;
@@ -1577,7 +1579,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
     private function readDefault()
     {
         $length = self::getInt2d($this->data, $this->pos + 2);
-//        $recordData = $this->readRecordData($this->data, $this->pos + 4, $length);
+        //        $recordData = $this->readRecordData($this->data, $this->pos + 4, $length);
 
         // move stream pointer to next record
         $this->pos += 4 + $length;
@@ -1590,7 +1592,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
      */
     private function readNote()
     {
-//        echo '<b>Read Cell Annotation</b><br />';
+        //        echo '<b>Read Cell Annotation</b><br />';
         $length = self::getInt2d($this->data, $this->pos + 2);
         $recordData = $this->readRecordData($this->data, $this->pos + 4, $length);
 
@@ -1606,14 +1608,14 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
             $noteObjID = self::getInt2d($recordData, 6);
             $noteAuthor = self::readUnicodeStringLong(substr($recordData, 8));
             $noteAuthor = $noteAuthor['value'];
-//            echo 'Note Address=', $cellAddress,'<br />';
+            //            echo 'Note Address=', $cellAddress,'<br />';
 //            echo 'Note Object ID=', $noteObjID,'<br />';
 //            echo 'Note Author=', $noteAuthor,'<hr />';
 //
             $this->cellNotes[$noteObjID] = array(
-                'cellRef'   => $cellAddress,
-                'objectID'  => $noteObjID,
-                'author'    => $noteAuthor
+                'cellRef' => $cellAddress,
+                'objectID' => $noteObjID,
+                'author' => $noteAuthor
             );
         } else {
             $extension = false;
@@ -1625,23 +1627,23 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
                 $extension = true;
                 $cellAddress = array_pop(array_keys($this->phpSheet->getComments()));
             }
-//            echo 'Note Address=', $cellAddress,'<br />';
+            //            echo 'Note Address=', $cellAddress,'<br />';
 
             $cellAddress = str_replace('$', '', $cellAddress);
             $noteLength = self::getInt2d($recordData, 4);
             $noteText = trim(substr($recordData, 6));
-//            echo 'Note Length=', $noteLength,'<br />';
+            //            echo 'Note Length=', $noteLength,'<br />';
 //            echo 'Note Text=', $noteText,'<br />';
 
             if ($extension) {
                 //    Concatenate this extension with the currently set comment for the cell
                 $comment = $this->phpSheet->getComment($cellAddress);
                 $commentText = $comment->getText()->getPlainText();
-                $comment->setText($this->parseRichText($commentText.$noteText));
+                $comment->setText($this->parseRichText($commentText . $noteText));
             } else {
                 //    Set comment for the cell
                 $this->phpSheet->getComment($cellAddress)->setText($this->parseRichText($noteText));
-//                                                    ->setAuthor($author)
+                //                                                    ->setAuthor($author)
             }
         }
 
@@ -1669,20 +1671,20 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
         //    cchText: 2 bytes; length of the text (in the first continue record)
         //    cbRuns: 2 bytes; length of the formatting (in the second continue record)
         // followed by the continuation records containing the actual text and formatting
-        $grbitOpts  = self::getInt2d($recordData, 0);
-        $rot        = self::getInt2d($recordData, 2);
-        $cchText    = self::getInt2d($recordData, 10);
-        $cbRuns     = self::getInt2d($recordData, 12);
-        $text       = $this->getSplicedRecordData();
+        $grbitOpts = self::getInt2d($recordData, 0);
+        $rot = self::getInt2d($recordData, 2);
+        $cchText = self::getInt2d($recordData, 10);
+        $cbRuns = self::getInt2d($recordData, 12);
+        $text = $this->getSplicedRecordData();
 
         $this->textObjects[$this->textObjRef] = array(
-            'text'      => substr($text["recordData"], $text["spliceOffsets"][0]+1, $cchText),
-            'format'    => substr($text["recordData"], $text["spliceOffsets"][1], $cbRuns),
+            'text' => substr($text["recordData"], $text["spliceOffsets"][0] + 1, $cchText),
+            'format' => substr($text["recordData"], $text["spliceOffsets"][1], $cbRuns),
             'alignment' => $grbitOpts,
-            'rotation'  => $rot
+            'rotation' => $rot
         );
 
-//        echo '<b>_readTextObject()</b><br />';
+        //        echo '<b>_readTextObject()</b><br />';
 //        var_dump($this->textObjects[$this->textObjRef]);
 //        echo '<br />';
     }
@@ -1748,16 +1750,16 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
         if ($length != 54) {
             throw new PHPExcel_Reader_Exception('Unexpected file pass record length');
         }
-        
+
         $recordData = $this->readRecordData($this->data, $this->pos + 4, $length);
-        
+
         // move stream pointer to next record
         $this->pos += 4 + $length;
 
         if (!$this->verifyPassword('VelvetSweatshop', substr($recordData, 6, 16), substr($recordData, 22, 16), substr($recordData, 38, 16), $this->md5Ctxt)) {
             throw new PHPExcel_Reader_Exception('Decryption password incorrect');
         }
-        
+
         $this->encryption = self::MS_BIFF_CRYPTO_RC4;
 
         // Decryption required from the record after next onwards
@@ -1779,7 +1781,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
         for ($i = 0; $i < 5; $i++) {
             $pwarray[$i] = $valContext[$i];
         }
-        
+
         $pwarray[5] = chr($block & 0xff);
         $pwarray[6] = chr(($block >> 8) & 0xff);
         $pwarray[7] = chr(($block >> 16) & 0xff);
@@ -1868,7 +1870,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 
         $salt = $key->RC4($salt_data);
         $hashedsalt = $key->RC4($hashedsalt_data);
-        
+
         $salt .= "\x80" . str_repeat("\0", 47);
         $salt[56] = "\x80";
 
@@ -1925,7 +1927,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 
         // offset: 0; size: 2; 0 = base 1900, 1 = base 1904
         PHPExcel_Shared_Date::setExcelCalendar(PHPExcel_Shared_Date::CALENDAR_WINDOWS_1900);
-        if (ord($recordData{0}) == 1) {
+        if (ord($recordData[0]) == 1) {
             PHPExcel_Shared_Date::setExcelCalendar(PHPExcel_Shared_Date::CALENDAR_MAC_1904);
         }
     }
@@ -1988,7 +1990,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
             }
 
             // offset: 10; size: 1; underline type
-            $underlineType = ord($recordData{10});
+            $underlineType = ord($recordData[10]);
             switch ($underlineType) {
                 case 0x00:
                     break; // no underline
@@ -2125,7 +2127,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 
             // offset:  6; size: 1; Alignment and text break
             // bit 2-0, mask 0x07; horizontal alignment
-            $horAlign = (0x07 & ord($recordData{6})) >> 0;
+            $horAlign = (0x07 & ord($recordData[6])) >> 0;
             switch ($horAlign) {
                 case 0:
                     $objStyle->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_GENERAL);
@@ -2150,7 +2152,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
                     break;
             }
             // bit 3, mask 0x08; wrap text
-            $wrapText = (0x08 & ord($recordData{6})) >> 3;
+            $wrapText = (0x08 & ord($recordData[6])) >> 3;
             switch ($wrapText) {
                 case 0:
                     $objStyle->getAlignment()->setWrapText(false);
@@ -2160,7 +2162,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
                     break;
             }
             // bit 6-4, mask 0x70; vertical alignment
-            $vertAlign = (0x70 & ord($recordData{6})) >> 4;
+            $vertAlign = (0x70 & ord($recordData[6])) >> 4;
             switch ($vertAlign) {
                 case 0:
                     $objStyle->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);
@@ -2178,7 +2180,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 
             if ($this->version == self::XLS_BIFF8) {
                 // offset:  7; size: 1; XF_ROTATION: Text rotation angle
-                $angle = ord($recordData{7});
+                $angle = ord($recordData[7]);
                 $rotation = 0;
                 if ($angle <= 90) {
                     $rotation = $angle;
@@ -2191,11 +2193,11 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 
                 // offset:  8; size: 1; Indentation, shrink to cell size, and text direction
                 // bit: 3-0; mask: 0x0F; indent level
-                $indent = (0x0F & ord($recordData{8})) >> 0;
+                $indent = (0x0F & ord($recordData[8])) >> 0;
                 $objStyle->getAlignment()->setIndent($indent);
 
                 // bit: 4; mask: 0x10; 1 = shrink content to fit into cell
-                $shrinkToFit = (0x10 & ord($recordData{8})) >> 4;
+                $shrinkToFit = (0x10 & ord($recordData[8])) >> 4;
                 switch ($shrinkToFit) {
                     case 0:
                         $objStyle->getAlignment()->setShrinkToFit(false);
@@ -2275,7 +2277,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
                 // BIFF5
 
                 // offset: 7; size: 1; Text orientation and flags
-                $orientationAndFlags = ord($recordData{7});
+                $orientationAndFlags = ord($recordData[7]);
 
                 // bit: 1-0; mask: 0x03; XF_ORIENTATION: Text orientation
                 $xfOrientation = (0x03 & $orientationAndFlags) >> 0;
@@ -2395,11 +2397,11 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 
                 switch ($extType) {
                     case 4:        // fill start color
-                        $xclfType  = self::getInt2d($extData, 0); // color type
+                        $xclfType = self::getInt2d($extData, 0); // color type
                         $xclrValue = substr($extData, 4, 4); // color value (value based on color type)
 
                         if ($xclfType == 2) {
-                            $rgb = sprintf('%02X%02X%02X', ord($xclrValue{0}), ord($xclrValue{1}), ord($xclrValue{2}));
+                            $rgb = sprintf('%02X%02X%02X', ord($xclrValue[0]), ord($xclrValue[1]), ord($xclrValue[2]));
 
                             // modify the relevant style property
                             if (isset($this->mapCellXfIndex[$ixfe])) {
@@ -2410,11 +2412,11 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
                         }
                         break;
                     case 5:        // fill end color
-                        $xclfType  = self::getInt2d($extData, 0); // color type
+                        $xclfType = self::getInt2d($extData, 0); // color type
                         $xclrValue = substr($extData, 4, 4); // color value (value based on color type)
 
                         if ($xclfType == 2) {
-                            $rgb = sprintf('%02X%02X%02X', ord($xclrValue{0}), ord($xclrValue{1}), ord($xclrValue{2}));
+                            $rgb = sprintf('%02X%02X%02X', ord($xclrValue[0]), ord($xclrValue[1]), ord($xclrValue[2]));
 
                             // modify the relevant style property
                             if (isset($this->mapCellXfIndex[$ixfe])) {
@@ -2425,11 +2427,11 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
                         }
                         break;
                     case 7:        // border color top
-                        $xclfType  = self::getInt2d($extData, 0); // color type
+                        $xclfType = self::getInt2d($extData, 0); // color type
                         $xclrValue = substr($extData, 4, 4); // color value (value based on color type)
 
                         if ($xclfType == 2) {
-                            $rgb = sprintf('%02X%02X%02X', ord($xclrValue{0}), ord($xclrValue{1}), ord($xclrValue{2}));
+                            $rgb = sprintf('%02X%02X%02X', ord($xclrValue[0]), ord($xclrValue[1]), ord($xclrValue[2]));
 
                             // modify the relevant style property
                             if (isset($this->mapCellXfIndex[$ixfe])) {
@@ -2440,11 +2442,11 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
                         }
                         break;
                     case 8:        // border color bottom
-                        $xclfType  = self::getInt2d($extData, 0); // color type
+                        $xclfType = self::getInt2d($extData, 0); // color type
                         $xclrValue = substr($extData, 4, 4); // color value (value based on color type)
 
                         if ($xclfType == 2) {
-                            $rgb = sprintf('%02X%02X%02X', ord($xclrValue{0}), ord($xclrValue{1}), ord($xclrValue{2}));
+                            $rgb = sprintf('%02X%02X%02X', ord($xclrValue[0]), ord($xclrValue[1]), ord($xclrValue[2]));
 
                             // modify the relevant style property
                             if (isset($this->mapCellXfIndex[$ixfe])) {
@@ -2455,11 +2457,11 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
                         }
                         break;
                     case 9:        // border color left
-                        $xclfType  = self::getInt2d($extData, 0); // color type
+                        $xclfType = self::getInt2d($extData, 0); // color type
                         $xclrValue = substr($extData, 4, 4); // color value (value based on color type)
 
                         if ($xclfType == 2) {
-                            $rgb = sprintf('%02X%02X%02X', ord($xclrValue{0}), ord($xclrValue{1}), ord($xclrValue{2}));
+                            $rgb = sprintf('%02X%02X%02X', ord($xclrValue[0]), ord($xclrValue[1]), ord($xclrValue[2]));
 
                             // modify the relevant style property
                             if (isset($this->mapCellXfIndex[$ixfe])) {
@@ -2470,11 +2472,11 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
                         }
                         break;
                     case 10:        // border color right
-                        $xclfType  = self::getInt2d($extData, 0); // color type
+                        $xclfType = self::getInt2d($extData, 0); // color type
                         $xclrValue = substr($extData, 4, 4); // color value (value based on color type)
 
                         if ($xclfType == 2) {
-                            $rgb = sprintf('%02X%02X%02X', ord($xclrValue{0}), ord($xclrValue{1}), ord($xclrValue{2}));
+                            $rgb = sprintf('%02X%02X%02X', ord($xclrValue[0]), ord($xclrValue[1]), ord($xclrValue[2]));
 
                             // modify the relevant style property
                             if (isset($this->mapCellXfIndex[$ixfe])) {
@@ -2485,11 +2487,11 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
                         }
                         break;
                     case 11:        // border color diagonal
-                        $xclfType  = self::getInt2d($extData, 0); // color type
+                        $xclfType = self::getInt2d($extData, 0); // color type
                         $xclrValue = substr($extData, 4, 4); // color value (value based on color type)
 
                         if ($xclfType == 2) {
-                            $rgb = sprintf('%02X%02X%02X', ord($xclrValue{0}), ord($xclrValue{1}), ord($xclrValue{2}));
+                            $rgb = sprintf('%02X%02X%02X', ord($xclrValue[0]), ord($xclrValue[1]), ord($xclrValue[2]));
 
                             // modify the relevant style property
                             if (isset($this->mapCellXfIndex[$ixfe])) {
@@ -2500,11 +2502,11 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
                         }
                         break;
                     case 13:    // font color
-                        $xclfType  = self::getInt2d($extData, 0); // color type
+                        $xclfType = self::getInt2d($extData, 0); // color type
                         $xclrValue = substr($extData, 4, 4); // color value (value based on color type)
 
                         if ($xclfType == 2) {
-                            $rgb = sprintf('%02X%02X%02X', ord($xclrValue{0}), ord($xclrValue{1}), ord($xclrValue{2}));
+                            $rgb = sprintf('%02X%02X%02X', ord($xclrValue[0]), ord($xclrValue[1]), ord($xclrValue[2]));
 
                             // modify the relevant style property
                             if (isset($this->mapCellXfIndex[$ixfe])) {
@@ -2546,7 +2548,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 
             if ($isBuiltIn) {
                 // offset: 2; size: 1; identifier for built-in style
-                $builtInId = ord($recordData{2});
+                $builtInId = ord($recordData[2]);
 
                 switch ($builtInId) {
                     case 0x00:
@@ -2611,7 +2613,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
         $this->pos += 4 + $length;
 
         // offset: 4; size: 1; sheet state
-        switch (ord($recordData{4})) {
+        switch (ord($recordData[4])) {
             case 0x00:
                 $sheetState = PHPExcel_Worksheet::SHEETSTATE_VISIBLE;
                 break;
@@ -2627,7 +2629,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
         }
 
         // offset: 5; size: 1; sheet type
-        $sheetType = ord($recordData{5});
+        $sheetType = ord($recordData[5]);
 
         // offset: 6; size: var; sheet name
         if ($this->version == self::XLS_BIFF8) {
@@ -2805,7 +2807,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
             // offset: 2; size: 1; keyboard shortcut
 
             // offset: 3; size: 1; length of the name (character count)
-            $nlen = ord($recordData{3});
+            $nlen = ord($recordData[3]);
 
             // offset: 4; size: 2; size of the formula data (it can happen that this is zero)
             // note: there can also be additional data, this is not included in $flen
@@ -2888,11 +2890,11 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
             $pos += 2;
 
             // option flags
-            $optionFlags = ord($recordData{$pos});
+            $optionFlags = ord($recordData[$pos]);
             ++$pos;
 
             // bit: 0; mask: 0x01; 0 = compressed; 1 = uncompressed
-            $isCompressed = (($optionFlags & 0x01) == 0) ;
+            $isCompressed = (($optionFlags & 0x01) == 0);
 
             // bit: 2; mask: 0x02; 0 = ordinary; 1 = Asian phonetic
             $hasAsian = (($optionFlags & 0x04) != 0);
@@ -2955,7 +2957,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 
                     // repeated option flags
                     // OpenOffice.org documentation 5.21
-                    $option = ord($recordData{$pos});
+                    $option = ord($recordData[$pos]);
                     ++$pos;
 
                     if ($isCompressed && ($option == 0)) {
@@ -2977,7 +2979,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
                         // this fragment compressed
                         $len = min($charsLeft, $limitpos - $pos);
                         for ($j = 0; $j < $len; ++$j) {
-                            $retstr .= $recordData{$pos + $j} . chr(0);
+                            $retstr .= $recordData[$pos + $j] . chr(0);
                         }
                         $charsLeft -= $len;
                         $isCompressed = false;
@@ -3406,7 +3408,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 
         // bit 0, mask 0x01; 1 = sheet is protected
         $bool = (0x01 & self::getInt2d($recordData, 0)) >> 0;
-        $this->phpSheet->getProtection()->setSheet((bool)$bool);
+        $this->phpSheet->getProtection()->setSheet((bool) $bool);
     }
 
 
@@ -3430,7 +3432,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
         // bit: 0, mask 0x01; 1 = scenarios are protected
         $bool = (0x01 & self::getInt2d($recordData, 0)) >> 0;
 
-        $this->phpSheet->getProtection()->setScenarios((bool)$bool);
+        $this->phpSheet->getProtection()->setScenarios((bool) $bool);
     }
 
 
@@ -3454,7 +3456,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
         // bit: 0, mask 0x01; 1 = objects are protected
         $bool = (0x01 & self::getInt2d($recordData, 0)) >> 0;
 
-        $this->phpSheet->getProtection()->setObjects((bool)$bool);
+        $this->phpSheet->getProtection()->setObjects((bool) $bool);
     }
 
 
@@ -3883,14 +3885,14 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
         // We can apparently not rely on $isPartOfSharedFormula. Even when $isPartOfSharedFormula = true
         // the formula data may be ordinary formula data, therefore we need to check
         // explicitly for the tExp token (0x01)
-        $isPartOfSharedFormula = $isPartOfSharedFormula && ord($formulaStructure{2}) == 0x01;
+        $isPartOfSharedFormula = $isPartOfSharedFormula && ord($formulaStructure[2]) == 0x01;
 
         if ($isPartOfSharedFormula) {
             // part of shared formula which means there will be a formula with a tExp token and nothing else
             // get the base cell, grab tExp token
             $baseRow = self::getInt2d($formulaStructure, 3);
             $baseCol = self::getInt2d($formulaStructure, 5);
-            $this->_baseCell = PHPExcel_Cell::stringFromColumnIndex($baseCol). ($baseRow + 1);
+            $this->_baseCell = PHPExcel_Cell::stringFromColumnIndex($baseCol) . ($baseRow + 1);
         }
 
         // Read cell?
@@ -3906,7 +3908,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
             $xfIndex = self::getInt2d($recordData, 4);
 
             // offset: 6; size: 8; result of the formula
-            if ((ord($recordData{6}) == 0) && (ord($recordData{12}) == 255) && (ord($recordData{13}) == 255)) {
+            if ((ord($recordData[6]) == 0) && (ord($recordData[12]) == 255) && (ord($recordData[13]) == 255)) {
                 // String formula. Result follows in appended STRING record
                 $dataType = PHPExcel_Cell_DataType::TYPE_STRING;
 
@@ -3918,21 +3920,27 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 
                 // read STRING record
                 $value = $this->readString();
-            } elseif ((ord($recordData{6}) == 1)
-                && (ord($recordData{12}) == 255)
-                && (ord($recordData{13}) == 255)) {
+            } elseif (
+                (ord($recordData[6]) == 1)
+                && (ord($recordData[12]) == 255)
+                && (ord($recordData[13]) == 255)
+            ) {
                 // Boolean formula. Result is in +2; 0=false, 1=true
                 $dataType = PHPExcel_Cell_DataType::TYPE_BOOL;
-                $value = (bool) ord($recordData{8});
-            } elseif ((ord($recordData{6}) == 2)
-                && (ord($recordData{12}) == 255)
-                && (ord($recordData{13}) == 255)) {
+                $value = (bool) ord($recordData[8]);
+            } elseif (
+                (ord($recordData[6]) == 2)
+                && (ord($recordData[12]) == 255)
+                && (ord($recordData[13]) == 255)
+            ) {
                 // Error formula. Error code is in +2
                 $dataType = PHPExcel_Cell_DataType::TYPE_ERROR;
-                $value = PHPExcel_Reader_Excel5_ErrorCode::lookup(ord($recordData{8}));
-            } elseif ((ord($recordData{6}) == 3)
-                && (ord($recordData{12}) == 255)
-                && (ord($recordData{13}) == 255)) {
+                $value = PHPExcel_Reader_Excel5_ErrorCode::lookup(ord($recordData[8]));
+            } elseif (
+                (ord($recordData[6]) == 3)
+                && (ord($recordData[12]) == 255)
+                && (ord($recordData[13]) == 255)
+            ) {
                 // Formula result is a null string
                 $dataType = PHPExcel_Cell_DataType::TYPE_NULL;
                 $value = '';
@@ -3996,7 +4004,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
         // offset: 6, size: 1; not used
 
         // offset: 7, size: 1; number of existing FORMULA records for this shared formula
-        $no = ord($recordData{7});
+        $no = ord($recordData[7]);
 
         // offset: 8, size: var; Binary token array of the shared formula
         $formula = substr($recordData, 8);
@@ -4062,10 +4070,10 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
             $xfIndex = self::getInt2d($recordData, 4);
 
             // offset: 6; size: 1; the boolean value or error value
-            $boolErr = ord($recordData{6});
+            $boolErr = ord($recordData[6]);
 
             // offset: 7; size: 1; 0=boolean; 1=error
-            $isError = ord($recordData{7});
+            $isError = ord($recordData[7]);
 
             $cell = $this->phpSheet->getCell($columnString . ($row + 1));
             switch ($isError) {
@@ -4253,22 +4261,22 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
         //    data: var; subrecord data
 
         // for now, we are just interested in the second subrecord containing the object type
-        $ftCmoType  = self::getInt2d($recordData, 0);
-        $cbCmoSize  = self::getInt2d($recordData, 2);
-        $otObjType  = self::getInt2d($recordData, 4);
-        $idObjID    = self::getInt2d($recordData, 6);
-        $grbitOpts  = self::getInt2d($recordData, 6);
+        $ftCmoType = self::getInt2d($recordData, 0);
+        $cbCmoSize = self::getInt2d($recordData, 2);
+        $otObjType = self::getInt2d($recordData, 4);
+        $idObjID = self::getInt2d($recordData, 6);
+        $grbitOpts = self::getInt2d($recordData, 6);
 
         $this->objs[] = array(
             'ftCmoType' => $ftCmoType,
             'cbCmoSize' => $cbCmoSize,
             'otObjType' => $otObjType,
-            'idObjID'   => $idObjID,
+            'idObjID' => $idObjID,
             'grbitOpts' => $grbitOpts
         );
         $this->textObjRef = $idObjID;
 
-//        echo '<b>_readObj()</b><br />';
+        //        echo '<b>_readObj()</b><br />';
 //        var_dump(end($this->objs));
 //        echo '<br />';
     }
@@ -4320,7 +4328,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
         $this->frozen = (bool) ((0x0008 & $options) >> 3);
 
         // bit: 6; mask: 0x0040; 0 = columns from left to right, 1 = columns from right to left
-        $this->phpSheet->setRightToLeft((bool)((0x0040 & $options) >> 6));
+        $this->phpSheet->setRightToLeft((bool) ((0x0040 & $options) >> 6));
 
         // bit: 10; mask: 0x0400; 0 = sheet not active, 1 = sheet active
         $isActive = (bool) ((0x0400 & $options) >> 10);
@@ -4373,8 +4381,8 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
         $grbit = self::getInt2d($recordData, 14);
 
         // decomprise grbit
-        $fPageLayoutView   = $grbit & 0x01;
-        $fRulerVisible     = ($grbit >> 1) & 0x01; //no support
+        $fPageLayoutView = $grbit & 0x01;
+        $fRulerVisible = ($grbit >> 1) & 0x01; //no support
         $fWhitespaceHidden = ($grbit >> 3) & 0x01; //no support
 
         if ($fPageLayoutView === 1) {
@@ -4447,7 +4455,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 
         if (!$this->readDataOnly) {
             // offset: 0; size: 1; pane identifier
-            $paneId = ord($recordData{0});
+            $paneId = ord($recordData[0]);
 
             // offset: 1; size: 2; index to row of the active cell
             $r = self::getInt2d($recordData, 1);
@@ -4525,8 +4533,10 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
         if ($this->version == self::XLS_BIFF8 && !$this->readDataOnly) {
             $cellRangeAddressList = $this->readBIFF8CellRangeAddressList($recordData);
             foreach ($cellRangeAddressList['cellRangeAddresses'] as $cellRangeAddress) {
-                if ((strpos($cellRangeAddress, ':') !== false) &&
-                    ($this->includeCellRangeFiltered($cellRangeAddress))) {
+                if (
+                    (strpos($cellRangeAddress, ':') !== false) &&
+                    ($this->includeCellRangeFiltered($cellRangeAddress))
+                ) {
                     $this->phpSheet->mergeCells($cellRangeAddress);
                 }
             }
@@ -4598,9 +4608,9 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
                 $hyperlinkType = 'UNC';
             } elseif (!$isFileLinkOrUrl) {
                 $hyperlinkType = 'workbook';
-            } elseif (ord($recordData{$offset}) == 0x03) {
+            } elseif (ord($recordData[$offset]) == 0x03) {
                 $hyperlinkType = 'local';
-            } elseif (ord($recordData{$offset}) == 0xE0) {
+            } elseif (ord($recordData[$offset]) == 0xE0) {
                 $hyperlinkType = 'URL';
             }
 
@@ -4895,9 +4905,9 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
                 $objValidation = $this->phpSheet->getCell($coordinate)->getDataValidation();
                 $objValidation->setType($type);
                 $objValidation->setErrorStyle($errorStyle);
-                $objValidation->setAllowBlank((bool)$allowBlank);
-                $objValidation->setShowInputMessage((bool)$showInputMessage);
-                $objValidation->setShowErrorMessage((bool)$showErrorMessage);
+                $objValidation->setAllowBlank((bool) $allowBlank);
+                $objValidation->setShowInputMessage((bool) $showInputMessage);
+                $objValidation->setShowErrorMessage((bool) $showErrorMessage);
                 $objValidation->setShowDropDown(!$suppressDropDown);
                 $objValidation->setOperator($operator);
                 $objValidation->setErrorTitle($errorTitle);
@@ -5142,22 +5152,22 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
                 // 1. BITMAPCOREHEADER
                 // offset: 0; size: 4; bcSize, Specifies the number of bytes required by the structure
                 $bcSize = self::getInt4d($iData, 0);
-    //            var_dump($bcSize);
+                //            var_dump($bcSize);
 
                 // offset: 4; size: 2; bcWidth, specifies the width of the bitmap, in pixels
                 $bcWidth = self::getInt2d($iData, 4);
-    //            var_dump($bcWidth);
+                //            var_dump($bcWidth);
 
                 // offset: 6; size: 2; bcHeight, specifies the height of the bitmap, in pixels.
                 $bcHeight = self::getInt2d($iData, 6);
-    //            var_dump($bcHeight);
+                //            var_dump($bcHeight);
                 $ih = imagecreatetruecolor($bcWidth, $bcHeight);
 
                 // offset: 8; size: 2; bcPlanes, specifies the number of planes for the target device. This value must be 1
 
                 // offset: 10; size: 2; bcBitCount specifies the number of bits-per-pixel. This value must be 1, 4, 8, or 24
                 $bcBitCount = self::getInt2d($iData, 10);
-    //            var_dump($bcBitCount);
+                //            var_dump($bcBitCount);
 
                 $rgbString = substr($iData, 12);
                 $rgbTriples = array();
@@ -5614,8 +5624,8 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
                 $data = '%';
                 break;
             case 0x15:    //    parenthesis
-                $name  = 'tParen';
-                $size  = 1;
+                $name = 'tParen';
+                $size = 1;
                 $data = null;
                 break;
             case 0x16:    //    missing argument
@@ -5723,7 +5733,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
                 $name = 'tNum';
                 $size = 9;
                 $data = self::extractNumber(substr($formulaData, 1));
-                $data = str_replace(',', '.', (string)$data); // in case non-English locale
+                $data = str_replace(',', '.', (string) $data); // in case non-English locale
                 break;
             case 0x20:    //    array constant
             case 0x40:
@@ -6886,10 +6896,10 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
         $lr = self::getInt2d($subData, 2) + 1;
 
         // offset: 4; size: 1; index to first column
-        $fc = ord($subData{4});
+        $fc = ord($subData[4]);
 
         // offset: 5; size: 1; index to last column
-        $lc = ord($subData{5});
+        $lc = ord($subData[5]);
 
         // check values
         if ($fr > $lr || $fc > $lc) {
@@ -6960,10 +6970,10 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
         // not just return e.g. 'A1' and not 'A1:A1' ?
 
         // offset: 0; size: 2; index to first row (0... 65535) (or offset (-32768... 32767))
-            $fr = self::getInt2d($subData, 0) + 1;
+        $fr = self::getInt2d($subData, 0) + 1;
 
         // offset: 2; size: 2; index to last row (0... 65535) (or offset (-32768... 32767))
-            $lr = self::getInt2d($subData, 2) + 1;
+        $lr = self::getInt2d($subData, 2) + 1;
 
         // offset: 4; size: 2; index to first column or column offset + relative flags
 
@@ -7294,13 +7304,13 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
     private static function readRGB($rgb)
     {
         // offset: 0; size 1; Red component
-        $r = ord($rgb{0});
+        $r = ord($rgb[0]);
 
         // offset: 1; size: 1; Green component
-        $g = ord($rgb{1});
+        $g = ord($rgb[1]);
 
         // offset: 2; size: 1; Blue component
-        $b = ord($rgb{2});
+        $b = ord($rgb[2]);
 
         // HEX notation, e.g. 'FF00FC'
         $rgb = sprintf('%02X%02X%02X', $r, $g, $b);
@@ -7493,7 +7503,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
             $sign = ($rknum & 0x80000000) >> 31;
             $exp = ($rknum & 0x7ff00000) >> 20;
             $mantissa = (0x100000 | ($rknum & 0x000ffffc));
-            $value = $mantissa / pow(2, (20- ($exp - 1023)));
+            $value = $mantissa / pow(2, (20 - ($exp - 1023)));
             if ($sign) {
                 $value = -1 * $value;
             }
@@ -7559,7 +7569,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
      */
     public static function getInt2d($data, $pos)
     {
-        return ord($data[$pos]) | (ord($data[$pos+1]) << 8);
+        return ord($data[$pos]) | (ord($data[$pos + 1]) << 8);
     }
 
     /**
@@ -7581,7 +7591,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
         } else {
             $_ord_24 = ($_or_24 & 127) << 24;
         }
-        return ord($data[$pos]) | (ord($data[$pos+1]) << 8) | (ord($data[$pos+2]) << 16) | $_ord_24;
+        return ord($data[$pos]) | (ord($data[$pos + 1]) << 8) | (ord($data[$pos + 2]) << 16) | $_ord_24;
     }
 
     private function parseRichText($is = '')

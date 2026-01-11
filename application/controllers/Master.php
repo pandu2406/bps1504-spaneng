@@ -13,6 +13,7 @@ class Master extends CI_Controller
 
     public function index()
     {
+        $this->output->cache(1);
         $data['title'] = 'Master';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
@@ -137,6 +138,7 @@ class Master extends CI_Controller
 
     public function mitra($tahun = null)
     {
+        $this->output->cache(1);
         // Enforce year parameter: Redirect to current year if missing
         if (!$tahun) {
             redirect('master/mitra/' . date('Y'));
@@ -629,6 +631,7 @@ class Master extends CI_Controller
 
     public function pegawai()
     {
+        $this->output->cache(1);
         $data['title'] = 'Data Pegawai';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['pegawai'] = $this->db->get('pegawai')->result_array();

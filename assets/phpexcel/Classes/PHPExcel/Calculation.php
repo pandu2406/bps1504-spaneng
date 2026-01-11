@@ -54,19 +54,19 @@ class PHPExcel_Calculation
     /** Constants                */
     /** Regular Expressions        */
     //    Numeric operand
-    const CALCULATION_REGEXP_NUMBER        = '[-+]?\d*\.?\d+(e[-+]?\d+)?';
+    const CALCULATION_REGEXP_NUMBER = '[-+]?\d*\.?\d+(e[-+]?\d+)?';
     //    String operand
-    const CALCULATION_REGEXP_STRING        = '"(?:[^"]|"")*"';
+    const CALCULATION_REGEXP_STRING = '"(?:[^"]|"")*"';
     //    Opening bracket
-    const CALCULATION_REGEXP_OPENBRACE    = '\(';
+    const CALCULATION_REGEXP_OPENBRACE = '\(';
     //    Function (allow for the old @ symbol that could be used to prefix a function, but we'll ignore it)
-    const CALCULATION_REGEXP_FUNCTION    = '@?([A-Z][A-Z0-9\.]*)[\s]*\(';
+    const CALCULATION_REGEXP_FUNCTION = '@?([A-Z][A-Z0-9\.]*)[\s]*\(';
     //    Cell reference (cell or range of cells, with or without a sheet reference)
-    const CALCULATION_REGEXP_CELLREF    = CALCULATION_REGEXP_CELLREF;
+    const CALCULATION_REGEXP_CELLREF = CALCULATION_REGEXP_CELLREF;
     //    Named Range of cells
-    const CALCULATION_REGEXP_NAMEDRANGE    = CALCULATION_REGEXP_NAMEDRANGE;
+    const CALCULATION_REGEXP_NAMEDRANGE = CALCULATION_REGEXP_NAMEDRANGE;
     //    Error
-    const CALCULATION_REGEXP_ERROR        = '\#[A-Z][A-Z0_\/]*[!\?]?';
+    const CALCULATION_REGEXP_ERROR = '\#[A-Z][A-Z0_\/]*[!\?]?';
 
 
     /** constants */
@@ -128,10 +128,22 @@ class PHPExcel_Calculation
      * @var array
      */
     private static $operators = array(
-        '+' => true,    '-' => true,    '*' => true,    '/' => true,
-        '^' => true,    '&' => true,    '%' => false,    '~' => false,
-        '>' => true,    '<' => true,    '=' => true,    '>=' => true,
-        '<=' => true,    '<>' => true,    '|' => true,    ':' => true
+        '+' => true,
+        '-' => true,
+        '*' => true,
+        '/' => true,
+        '^' => true,
+        '&' => true,
+        '%' => false,
+        '~' => false,
+        '>' => true,
+        '<' => true,
+        '=' => true,
+        '>=' => true,
+        '<=' => true,
+        '<>' => true,
+        '|' => true,
+        ':' => true
     );
 
     /**
@@ -141,10 +153,20 @@ class PHPExcel_Calculation
      * @var array
      */
     private static $binaryOperators = array(
-        '+' => true,    '-' => true,    '*' => true,    '/' => true,
-        '^' => true,    '&' => true,    '>' => true,    '<' => true,
-        '=' => true,    '>=' => true,    '<=' => true,    '<>' => true,
-        '|' => true,    ':' => true
+        '+' => true,
+        '-' => true,
+        '*' => true,
+        '/' => true,
+        '^' => true,
+        '&' => true,
+        '>' => true,
+        '<' => true,
+        '=' => true,
+        '>=' => true,
+        '<=' => true,
+        '<>' => true,
+        '|' => true,
+        ':' => true
     );
 
     /**
@@ -213,7 +235,7 @@ class PHPExcel_Calculation
      * @var float
      *
      */
-    private $delta    = 0.1e-12;
+    private $delta = 0.1e-12;
 
 
     /**
@@ -251,9 +273,9 @@ class PHPExcel_Calculation
      *
      */
     public static $localeBoolean = array(
-        'TRUE'  => 'TRUE',
+        'TRUE' => 'TRUE',
         'FALSE' => 'FALSE',
-        'NULL'  => 'NULL'
+        'NULL' => 'NULL'
     );
 
     /**
@@ -264,9 +286,9 @@ class PHPExcel_Calculation
      *
      */
     private static $excelConstants = array(
-        'TRUE'  => true,
+        'TRUE' => true,
         'FALSE' => false,
-        'NULL'  => null
+        'NULL' => null
     );
 
     //    PHPExcel functions
@@ -2059,13 +2081,15 @@ class PHPExcel_Calculation
         )
     );
 
-    //    Internal functions used for special control purposes
     private static $controlFunctions = array(
         'MKMATRIX' => array(
             'argumentCount' => '*',
             'functionCall' => 'self::mkMatrix'
         )
     );
+
+    public $_debugLog;
+
 
 
     public function __construct(PHPExcel $workbook = null)
@@ -2189,7 +2213,8 @@ class PHPExcel_Calculation
      */
     public static function setArrayReturnType($returnType)
     {
-        if (($returnType == self::RETURN_ARRAY_AS_VALUE) ||
+        if (
+            ($returnType == self::RETURN_ARRAY_AS_VALUE) ||
             ($returnType == self::RETURN_ARRAY_AS_ERROR) ||
             ($returnType == self::RETURN_ARRAY_AS_ARRAY)
         ) {
@@ -2439,7 +2464,7 @@ class PHPExcel_Calculation
     }
 
     private static $functionReplaceFromExcel = null;
-    private static $functionReplaceToLocale  = null;
+    private static $functionReplaceToLocale = null;
 
     public function _translateFormulaToLocale($formula)
     {
@@ -2468,7 +2493,7 @@ class PHPExcel_Calculation
 
 
     private static $functionReplaceFromLocale = null;
-    private static $functionReplaceToExcel    = null;
+    private static $functionReplaceToExcel = null;
 
     public function _translateFormulaToEnglish($formula)
     {
@@ -3103,32 +3128,47 @@ class PHPExcel_Calculation
     //    Binary Operators
     //    These operators always work on two values
     //    Array key is the operator, the value indicates whether this is a left or right associative operator
-    private static $operatorAssociativity    = array(
+    private static $operatorAssociativity = array(
         '^' => 0,                                                            //    Exponentiation
-        '*' => 0, '/' => 0,                                                 //    Multiplication and Division
-        '+' => 0, '-' => 0,                                                    //    Addition and Subtraction
+        '*' => 0,
+        '/' => 0,                                                 //    Multiplication and Division
+        '+' => 0,
+        '-' => 0,                                                    //    Addition and Subtraction
         '&' => 0,                                                            //    Concatenation
-        '|' => 0, ':' => 0,                                                    //    Intersect and Range
-        '>' => 0, '<' => 0, '=' => 0, '>=' => 0, '<=' => 0, '<>' => 0        //    Comparison
+        '|' => 0,
+        ':' => 0,                                                    //    Intersect and Range
+        '>' => 0,
+        '<' => 0,
+        '=' => 0,
+        '>=' => 0,
+        '<=' => 0,
+        '<>' => 0        //    Comparison
     );
 
     //    Comparison (Boolean) Operators
     //    These operators work on two values, but always return a boolean result
-    private static $comparisonOperators    = array('>' => true, '<' => true, '=' => true, '>=' => true, '<=' => true, '<>' => true);
+    private static $comparisonOperators = array('>' => true, '<' => true, '=' => true, '>=' => true, '<=' => true, '<>' => true);
 
     //    Operator Precedence
     //    This list includes all valid operators, whether binary (including boolean) or unary (such as %)
     //    Array key is the operator, the value is its precedence
-    private static $operatorPrecedence    = array(
+    private static $operatorPrecedence = array(
         ':' => 8,                                                                //    Range
         '|' => 7,                                                                //    Intersect
         '~' => 6,                                                                //    Negation
         '%' => 5,                                                                //    Percentage
         '^' => 4,                                                                //    Exponentiation
-        '*' => 3, '/' => 3,                                                     //    Multiplication and Division
-        '+' => 2, '-' => 2,                                                        //    Addition and Subtraction
+        '*' => 3,
+        '/' => 3,                                                     //    Multiplication and Division
+        '+' => 2,
+        '-' => 2,                                                        //    Addition and Subtraction
         '&' => 1,                                                                //    Concatenation
-        '>' => 0, '<' => 0, '=' => 0, '>=' => 0, '<=' => 0, '<>' => 0            //    Comparison
+        '>' => 0,
+        '<' => 0,
+        '=' => 0,
+        '>=' => 0,
+        '<=' => 0,
+        '<>' => 0            //    Comparison
     );
 
     // Convert infix to postfix notation
@@ -3381,14 +3421,16 @@ class PHPExcel_Calculation
                         if ($rangeWS2 != '') {
                             $rangeWS2 .= '!';
                         }
-                        if ((is_integer($startRowColRef)) && (ctype_digit($val)) &&
+                        if (
+                            (is_integer($startRowColRef)) && (ctype_digit($val)) &&
                             ($startRowColRef <= 1048576) && ($val <= 1048576)
                         ) {
                             //    Row range
                             $endRowColRef = ($pCellParent !== null) ? $pCellParent->getHighestColumn() : 'XFD';    //    Max 16,384 columns for Excel2007
                             $output[count($output) - 1]['value'] = $rangeWS1 . 'A' . $startRowColRef;
                             $val = $rangeWS2 . $endRowColRef . $val;
-                        } elseif ((ctype_alpha($startRowColRef)) && (ctype_alpha($val)) &&
+                        } elseif (
+                            (ctype_alpha($startRowColRef)) && (ctype_alpha($val)) &&
                             (strlen($startRowColRef) <= 3) && (strlen($val) <= 3)
                         ) {
                             //    Column range
@@ -3463,7 +3505,8 @@ class PHPExcel_Calculation
                 //    If we're expecting an operator, but only have a space between the previous and next operands (and both are
                 //        Cell References) then we have an INTERSECTION operator
                 //                echo 'Possible Intersect Operator<br />';
-                if (($expectingOperator) && (preg_match('/^' . self::CALCULATION_REGEXP_CELLREF . '.*/Ui', substr($formula, $index), $match)) &&
+                if (
+                    ($expectingOperator) && (preg_match('/^' . self::CALCULATION_REGEXP_CELLREF . '.*/Ui', substr($formula, $index), $match)) &&
                     ($output[count($output) - 1]['type'] == 'Cell Reference')
                 ) {
                     //                    echo 'Element is an Intersect Operator<br />';
@@ -3548,7 +3591,7 @@ class PHPExcel_Calculation
 
                 //    Process the operation in the appropriate manner
                 switch ($token) {
-                        //    Comparison (Boolean) Operators
+                    //    Comparison (Boolean) Operators
                     case '>':            //    Greater than
                     case '<':            //    Less than
                     case '>=':            //    Greater than or Equal to
@@ -3557,7 +3600,7 @@ class PHPExcel_Calculation
                     case '<>':            //    Inequality
                         $this->executeBinaryComparisonOperation($cellID, $operand1, $operand2, $token, $stack);
                         break;
-                        //    Binary Operators
+                    //    Binary Operators
                     case ':':            //    Range
                         $sheet1 = $sheet2 = '';
                         if (strpos($operand1Data['reference'], '!') !== false) {
@@ -3804,7 +3847,8 @@ class PHPExcel_Calculation
                     for ($i = 0; $i < $argCount; ++$i) {
                         $arg = $stack->pop();
                         $a = $argCount - $i - 1;
-                        if (($passByReference) &&
+                        if (
+                            ($passByReference) &&
                             (isset(self::$PHPExcelFunctions[$functionName]['passByReference'][$a])) &&
                             (self::$PHPExcelFunctions[$functionName]['passByReference'][$a])
                         ) {
@@ -4017,7 +4061,7 @@ class PHPExcel_Calculation
 
         //    execute the necessary operation
         switch ($operation) {
-                //    Greater than
+            //    Greater than
             case '>':
                 if ($useLowercaseFirstComparison) {
                     $result = $this->strcmpLowercaseFirst($operand1, $operand2) > 0;
@@ -4025,7 +4069,7 @@ class PHPExcel_Calculation
                     $result = ($operand1 > $operand2);
                 }
                 break;
-                //    Less than
+            //    Less than
             case '<':
                 if ($useLowercaseFirstComparison) {
                     $result = $this->strcmpLowercaseFirst($operand1, $operand2) < 0;
@@ -4033,7 +4077,7 @@ class PHPExcel_Calculation
                     $result = ($operand1 < $operand2);
                 }
                 break;
-                //    Equality
+            //    Equality
             case '=':
                 if (is_numeric($operand1) && is_numeric($operand2)) {
                     $result = (abs($operand1 - $operand2) < $this->delta);
@@ -4041,7 +4085,7 @@ class PHPExcel_Calculation
                     $result = strcmp($operand1, $operand2) == 0;
                 }
                 break;
-                //    Greater than or equal
+            //    Greater than or equal
             case '>=':
                 if (is_numeric($operand1) && is_numeric($operand2)) {
                     $result = ((abs($operand1 - $operand2) < $this->delta) || ($operand1 > $operand2));
@@ -4051,7 +4095,7 @@ class PHPExcel_Calculation
                     $result = strcmp($operand1, $operand2) >= 0;
                 }
                 break;
-                //    Less than or equal
+            //    Less than or equal
             case '<=':
                 if (is_numeric($operand1) && is_numeric($operand2)) {
                     $result = ((abs($operand1 - $operand2) < $this->delta) || ($operand1 < $operand2));
@@ -4061,7 +4105,7 @@ class PHPExcel_Calculation
                     $result = strcmp($operand1, $operand2) <= 0;
                 }
                 break;
-                //    Inequality
+            //    Inequality
             case '<>':
                 if (is_numeric($operand1) && is_numeric($operand2)) {
                     $result = (abs($operand1 - $operand2) > 1E-14);
@@ -4120,7 +4164,8 @@ class PHPExcel_Calculation
                 $result = '#VALUE!';
             }
         } else {
-            if ((PHPExcel_Calculation_Functions::getCompatibilityMode() != PHPExcel_Calculation_Functions::COMPATIBILITY_OPENOFFICE) &&
+            if (
+                (PHPExcel_Calculation_Functions::getCompatibilityMode() != PHPExcel_Calculation_Functions::COMPATIBILITY_OPENOFFICE) &&
                 ((is_string($operand1) && !is_numeric($operand1) && strlen($operand1) > 0) ||
                     (is_string($operand2) && !is_numeric($operand2) && strlen($operand2) > 0))
             ) {
@@ -4128,19 +4173,19 @@ class PHPExcel_Calculation
             } else {
                 //    If we're dealing with non-matrix operations, execute the necessary operation
                 switch ($operation) {
-                        //    Addition
+                    //    Addition
                     case '+':
                         $result = $operand1 + $operand2;
                         break;
-                        //    Subtraction
+                    //    Subtraction
                     case '-':
                         $result = $operand1 - $operand2;
                         break;
-                        //    Multiplication
+                    //    Multiplication
                     case '*':
                         $result = $operand1 * $operand2;
                         break;
-                        //    Division
+                    //    Division
                     case '/':
                         if ($operand2 == 0) {
                             //    Trap for Divide by Zero error
@@ -4151,7 +4196,7 @@ class PHPExcel_Calculation
                             $result = $operand1 / $operand2;
                         }
                         break;
-                        //    Power
+                    //    Power
                     case '^':
                         $result = pow($operand1, $operand2);
                         break;

@@ -168,55 +168,55 @@
 
     <div class="card shadow mb-4">
         <div class="card-body">
-            <form action="<?= base_url('penilaian/simpannilai'); ?>" method="post">
-                <!-- Hidden inputs -->
-                <?php if ($peran === 'pengawas' && isset($all_kegiatan_pengawas['id'])): ?>
-                    <input type="hidden" name="peran" value="pengawas">
-                    <input type="hidden" name="all_id" value="<?= $all_kegiatan_pengawas['id']; ?>">
-                <?php elseif ($peran === 'mitra' && isset($all_kegiatan_pencacah['id'])): ?>
-                    <input type="hidden" name="peran" value="mitra">
-                    <input type="hidden" name="all_id" value="<?= $all_kegiatan_pencacah['id']; ?>">
-                <?php endif; ?>
+            <?= form_open('penilaian/simpannilai'); ?>
+            <!-- Hidden inputs -->
+            <?php if ($peran === 'pengawas' && isset($all_kegiatan_pengawas['id'])): ?>
+                <input type="hidden" name="peran" value="pengawas">
+                <input type="hidden" name="all_id" value="<?= $all_kegiatan_pengawas['id']; ?>">
+            <?php elseif ($peran === 'mitra' && isset($all_kegiatan_pencacah['id'])): ?>
+                <input type="hidden" name="peran" value="mitra">
+                <input type="hidden" name="all_id" value="<?= $all_kegiatan_pencacah['id']; ?>">
+            <?php endif; ?>
 
-                <div class="table-responsive">
-                    <table class="table table-custom mb-0">
-                        <thead>
-                            <tr align="center">
-                                <th scope="col" width="60%">Kriteria Penilaian</th>
-                                <th scope="col" width="40%">Nilai (0-100)</th>
+            <div class="table-responsive">
+                <table class="table table-custom mb-0">
+                    <thead>
+                        <tr align="center">
+                            <th scope="col" width="60%">Kriteria Penilaian</th>
+                            <th scope="col" width="40%">Nilai (0-100)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($kriteria as $k): ?>
+                            <?php
+                            $nilai = '';
+                            if ($peran === 'pengawas' && isset($all_kegiatan_pengawas['id'])) {
+                                $nilai = get_nilai_pengawas($all_kegiatan_pengawas['id'], $k['id']);
+                            } elseif ($peran === 'mitra' && isset($all_kegiatan_pencacah['id'])) {
+                                $nilai = get_nilai($all_kegiatan_pencacah['id'], $k['id']);
+                            }
+                            ?>
+                            <tr>
+                                <td class="pl-4 font-weight-bold">
+                                    <?= htmlspecialchars($k['nama']) ?>
+                                </td>
+                                <td align="center">
+                                    <input type="number" min="0" max="100" class="form-control form-control-custom"
+                                        name="nilai[<?= $k['id']; ?>]" value="<?= htmlspecialchars($nilai) ?>"
+                                        placeholder="0" required style="max-width: 150px;">
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($kriteria as $k): ?>
-                                <?php
-                                $nilai = '';
-                                if ($peran === 'pengawas' && isset($all_kegiatan_pengawas['id'])) {
-                                    $nilai = get_nilai_pengawas($all_kegiatan_pengawas['id'], $k['id']);
-                                } elseif ($peran === 'mitra' && isset($all_kegiatan_pencacah['id'])) {
-                                    $nilai = get_nilai($all_kegiatan_pencacah['id'], $k['id']);
-                                }
-                                ?>
-                                <tr>
-                                    <td class="pl-4 font-weight-bold">
-                                        <?= htmlspecialchars($k['nama']) ?>
-                                    </td>
-                                    <td align="center">
-                                        <input type="number" min="0" max="100" class="form-control form-control-custom"
-                                            name="nilai[<?= $k['id']; ?>]" value="<?= htmlspecialchars($nilai) ?>"
-                                            placeholder="0" required style="max-width: 150px;">
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
 
-                <div class="text-right mt-4 mr-3">
-                    <button type="submit" class="btn btn-custom-submit">
-                        <i class="fas fa-save mr-2"></i> Simpan Penilaian
-                    </button>
-                </div>
-            </form>
+            <div class="text-right mt-4 mr-3">
+                <button type="submit" class="btn btn-custom-submit">
+                    <i class="fas fa-save mr-2"></i> Simpan Penilaian
+                </button>
+            </div>
+            <?= form_close(); ?>
         </div>
     </div>
     <br>
